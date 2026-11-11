@@ -1,0 +1,378 @@
+@import "tailwindcss";
+
+:root {
+  --dust: #c47a45;
+  --dust-deep: #8a4a28;
+  --ink: #1a120e;
+  --sand: #f0d2b0;
+  --sand-dim: #d7b48f;
+  --panel: rgba(22, 14, 10, 0.82);
+  --panel-border: rgba(232, 176, 122, 0.28);
+  --glow: #ffb26b;
+  --danger: #ff7a6a;
+  --ok: #9dcb7a;
+  --font-display: var(--font-oxanium);
+  --font-body: var(--font-sora);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--sand);
+  font-family: var(--font-body), system-ui, sans-serif;
+  background:
+    linear-gradient(180deg, rgba(12, 7, 5, 0.72), rgba(28, 14, 8, 0.88)),
+    url("/textures/mars-color-nasa.jpg") center / cover fixed;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.mission-shell {
+  width: min(1180px, calc(100% - 1.5rem));
+  margin: 0 auto;
+  padding: 1.25rem 0 2.5rem;
+}
+
+.mission-header {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.35rem;
+  color: var(--glow);
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.mission-header h1 {
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #ffe6c8;
+}
+
+.lede {
+  margin: 0.65rem 0 0;
+  max-width: 42rem;
+  color: var(--sand-dim);
+  line-height: 1.55;
+  font-size: 0.98rem;
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: fit-content;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--panel-border);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--sand-dim);
+  font-size: 0.86rem;
+}
+
+.status-chip[data-ready="true"] {
+  color: var(--sand);
+}
+
+.status-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--danger);
+  box-shadow: 0 0 0 0.2rem rgba(255, 122, 106, 0.18);
+}
+
+.status-chip[data-ready="true"] .status-dot {
+  background: var(--ok);
+  box-shadow: 0 0 0 0.2rem rgba(157, 203, 122, 0.18);
+}
+
+.mission-layout {
+  display: grid;
+  gap: 1rem;
+}
+
+.board-panel,
+.control-card {
+  border: 1px solid var(--panel-border);
+  border-radius: 1.1rem;
+  background: var(--panel);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+}
+
+.board-panel {
+  padding: 1rem;
+}
+
+.control-panel {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.control-card {
+  padding: 1rem;
+}
+
+.panel-heading h2 {
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.05rem;
+  color: #ffe1bc;
+}
+
+.panel-heading p {
+  margin: 0.35rem 0 0.9rem;
+  color: var(--sand-dim);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.plateau-shell {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.plateau-empty,
+.plateau-grid {
+  min-height: min(62vw, 28rem);
+  border-radius: 0.85rem;
+  border: 1px solid rgba(255, 186, 122, 0.18);
+  background:
+    linear-gradient(180deg, rgba(56, 28, 14, 0.35), rgba(18, 9, 5, 0.55)),
+    url("/textures/mars-color-nasa.jpg") center / cover;
+}
+
+.plateau-empty {
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--sand-dim);
+}
+
+.plateau-grid {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.35rem;
+}
+
+.plateau-cell {
+  position: relative;
+  min-height: 0;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 214, 170, 0.12);
+  border-radius: 0.28rem;
+  background: rgba(20, 10, 6, 0.28);
+  color: inherit;
+  padding: 0;
+}
+
+.plateau-cell:disabled {
+  cursor: default;
+}
+
+.plateau-cell.occupied {
+  background: rgba(92, 42, 18, 0.55);
+  border-color: rgba(255, 178, 107, 0.45);
+}
+
+.plateau-cell.selected {
+  outline: 2px solid var(--glow);
+  outline-offset: -2px;
+  box-shadow: inset 0 0 18px rgba(255, 178, 107, 0.25);
+}
+
+.probe-marker {
+  display: grid;
+  place-items: center;
+  gap: 0.1rem;
+  height: 100%;
+  padding: 0.15rem;
+}
+
+.probe-glyph {
+  font-size: clamp(0.85rem, 2.4vw, 1.25rem);
+  color: #ffe7c8;
+  text-shadow: 0 0 12px rgba(255, 178, 107, 0.65);
+}
+
+.probe-id {
+  font-size: clamp(0.45rem, 1.5vw, 0.65rem);
+  letter-spacing: 0.04em;
+  color: var(--sand-dim);
+}
+
+.plateau-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.4rem;
+  color: var(--sand-dim);
+  font-size: 0.8rem;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+}
+
+label {
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+  color: var(--sand-dim);
+  font-size: 0.82rem;
+}
+
+input,
+select,
+.control-card button {
+  width: 100%;
+  border-radius: 0.7rem;
+  border: 1px solid rgba(255, 186, 122, 0.24);
+  background: rgba(8, 4, 2, 0.55);
+  color: var(--sand);
+  padding: 0.7rem 0.8rem;
+}
+
+input:focus,
+select:focus,
+.control-card button:focus-visible,
+.plateau-cell:focus-visible,
+.probe-row:focus-visible {
+  outline: 2px solid var(--glow);
+  outline-offset: 1px;
+}
+
+.control-card button[type="submit"] {
+  margin-top: 0.2rem;
+  border: 0;
+  background: linear-gradient(135deg, #e08a4d, #a85124);
+  color: #1a0f0a;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.control-card button[type="submit"]:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.probe-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.probe-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.7rem;
+  align-items: center;
+  text-align: left;
+  padding: 0.7rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid transparent;
+  background: rgba(0, 0, 0, 0.28);
+  color: inherit;
+}
+
+.probe-row.active {
+  border-color: rgba(255, 178, 107, 0.5);
+  background: rgba(120, 55, 24, 0.35);
+}
+
+.probe-row strong,
+.probe-row small {
+  display: block;
+}
+
+.probe-row small {
+  margin-top: 0.15rem;
+  color: var(--sand-dim);
+}
+
+.probe-row-glyph {
+  font-size: 1.1rem;
+  color: var(--glow);
+}
+
+.selected-note,
+.muted {
+  margin: 0.75rem 0 0;
+  color: var(--sand-dim);
+  font-size: 0.84rem;
+}
+
+.alert {
+  padding: 0.85rem 0.95rem;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(255, 122, 106, 0.45);
+  background: rgba(80, 18, 12, 0.72);
+  color: #ffd4cc;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+@media (min-width: 900px) {
+  .mission-header {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+  }
+
+  .mission-layout {
+    grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.85fr);
+    align-items: start;
+  }
+
+  .plateau-empty,
+  .plateau-grid {
+    min-height: 34rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .mission-shell {
+    width: min(100% - 1rem, 1180px);
+    padding-top: 0.85rem;
+  }
+
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+
+  .probe-id {
+    display: none;
+  }
+}
