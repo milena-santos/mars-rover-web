@@ -59,27 +59,32 @@ export function Experience() {
           </header>
         ) : null}
 
-        {flow.showIntro ? <IntroPanel onStart={flow.startOperation} /> : null}
-        {flow.showFlowHud && flow.phase === "explore" ? (
-          <ExplorePanel onChooseRegion={() => flow.setPhase("select-region")} />
-        ) : null}
-        {flow.showFlowHud && flow.phase === "select-region" ? (
-          <RegionPanel
-            onSelect={flow.selectRegion}
-            onClose={() => flow.setPhase("explore")}
-          />
-        ) : null}
-        {flow.showFlowHud && flow.phase === "setup-mesh" && region ? (
-          <SetupPanel
-            region={region}
-            meshX={mission.meshX}
-            meshY={mission.meshY}
-            onMeshXChange={mission.setMeshX}
-            onMeshYChange={mission.setMeshY}
-            onConfirm={flow.confirmMesh}
-            onBack={flow.backToRegionSelect}
-          />
-        ) : null}
+        <div className="experience-stage">
+          {flow.showIntro ? <IntroPanel onStart={flow.startOperation} /> : null}
+          {flow.showFlowHud && flow.phase === "explore" ? (
+            <ExplorePanel
+              onChooseRegion={() => flow.setPhase("select-region")}
+            />
+          ) : null}
+          {flow.showFlowHud && flow.phase === "select-region" ? (
+            <RegionPanel
+              onSelect={flow.selectRegion}
+              onClose={() => flow.setPhase("explore")}
+            />
+          ) : null}
+          {flow.showFlowHud && flow.phase === "setup-mesh" && region ? (
+            <SetupPanel
+              region={region}
+              meshX={mission.meshX}
+              meshY={mission.meshY}
+              onMeshXChange={mission.setMeshX}
+              onMeshYChange={mission.setMeshY}
+              onConfirm={flow.confirmMesh}
+              onBack={flow.backToRegionSelect}
+            />
+          ) : null}
+        </div>
+
         {flow.showMissionHud && region ? (
           <MissionHud
             region={region}

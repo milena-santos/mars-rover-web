@@ -1,13 +1,13 @@
 .explore-dock {
   position: absolute;
   left: 50%;
-  bottom: 1.5rem;
+  bottom: 1rem;
   z-index: 4;
   display: grid;
   justify-items: center;
   gap: 0.55rem;
   width: max-content;
-  max-width: calc(100% - 2rem);
+  max-width: calc(100% - var(--safe-left) - var(--safe-right) - 1rem);
   transform: translateX(-50%);
   animation: panel-in 480ms ease;
 }
