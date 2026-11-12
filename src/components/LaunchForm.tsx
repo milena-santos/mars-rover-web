@@ -25,9 +25,9 @@ export function LaunchForm({
   return (
     <section className="dock-launch" aria-label="Pouso">
       <span className="dock-band-label">Pouso</span>
-      <div className="dock-launch-row">
-        <div className="dock-dir-block">
-          <span className="dock-dir-hint">Próxima sonda</span>
+      <div className="dock-dir-block">
+        <span className="dock-dir-hint">Próxima sonda</span>
+        <div className="dock-launch-row">
           <div
             className="dock-dir-pad"
             role="group"
@@ -51,15 +51,15 @@ export function LaunchForm({
               </button>
             ))}
           </div>
+          <button
+            type="button"
+            className="dock-abandon"
+            disabled={busy}
+            onClick={onAbandon}
+          >
+            Abandonar
+          </button>
         </div>
-        <button
-          type="button"
-          className="dock-abandon"
-          disabled={busy}
-          onClick={onAbandon}
-        >
-          Abandonar
-        </button>
       </div>
       <button
         type="button"
