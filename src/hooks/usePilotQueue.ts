@@ -85,6 +85,7 @@ export function usePilotQueue({
 
       const commands = actionToCommands(probe, action);
       setError(null);
+      setStatus(`${probeLabel(probesRef.current, probeId)} se movendo…`);
       try {
         const result = await moveProbe(probeId, commands);
         if (result.kind === "collision") {
