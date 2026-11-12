@@ -89,8 +89,6 @@ export function useMissionState({
 
       if (result.kind === "collision") {
         queueRef.current = [];
-        const nextProbes = await refreshProbes();
-        probesRef.current = nextProbes;
         const { x: cx, y: cy, destroyed } = result.collision;
         setStatus(collisionStatus("pouso", cx, cy, destroyed.length));
         onCollisionRef.current?.({
@@ -152,6 +150,15 @@ export function useMissionState({
     setStatus(`${probeLabel(probesRef.current, probeId)} pousou em (0, 0).`);
   }
 
+  async function settleCollisionState() {
+    const nextProbes = await refreshProbes();
+    probesRef.current = nextProbes;
+    const selected = selectedIdRef.current;
+    if (selected && !nextProbes.some((probe) => probe.id === selected)) {
+      setSelectedId(nextProbes[0]?.id ?? null);
+    }
+  }
+
   const meshLocked = probes.length > 0 || plateau !== null;
   const parsedX = parseMeshSize(meshX);
   const parsedY = parseMeshSize(meshY);
@@ -187,5 +194,6 @@ export function useMissionState({
     applyMeshDefaults,
     lockMesh,
     confirmLanding,
+    settleCollisionState,
   };
 }
