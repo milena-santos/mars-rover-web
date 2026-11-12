@@ -18,11 +18,7 @@
       rgba(180, 70, 35, 0.18),
       transparent 32%
     ),
-    radial-gradient(
-      circle at 48% 55%,
-      rgba(90, 30, 18, 0.16),
-      transparent 58%
-    ),
+    radial-gradient(circle at 48% 55%, rgba(90, 30, 18, 0.16), transparent 58%),
     rgba(6, 3, 2, 0.2);
   animation: collision-blast 1.7s ease forwards;
 }

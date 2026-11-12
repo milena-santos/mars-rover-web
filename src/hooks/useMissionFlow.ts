@@ -25,9 +25,12 @@ export function useMissionFlow() {
   const [loading, setLoading] = useState(true);
   const { fx, setFx, flash, clearFx } = useTimedFx();
 
-  const missionApiRef = useRef({
-    confirmLanding: (_probeId: string) => {},
-    setSelectedId: (_id: string | null) => {},
+  const missionApiRef = useRef<{
+    confirmLanding: (probeId: string) => void;
+    setSelectedId: (id: string | null) => void;
+  }>({
+    confirmLanding: () => {},
+    setSelectedId: () => {},
   });
 
   const landing = useLandingSession({

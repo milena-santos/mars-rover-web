@@ -79,8 +79,7 @@ function stepLayer(
     const age = Math.min(1, t / layer.lives[i]);
     const ix = i * 3;
     const arc = age * age * style.liftScale;
-    pos.array[ix] =
-      layer.velocities[ix] * age * style.drift + lift.x * arc;
+    pos.array[ix] = layer.velocities[ix] * age * style.drift + lift.x * arc;
     pos.array[ix + 1] =
       layer.velocities[ix + 1] * age * style.drift + lift.y * arc;
     pos.array[ix + 2] =

@@ -127,7 +127,11 @@ export function animateIntroLanding({
   ship.scale.setScalar(1);
 
   const thrust =
-    progress < 0.58 ? 1 : progress < 0.82 ? 1 - descentEase * 0.55 : 1 - fadeEase;
+    progress < 0.58
+      ? 1
+      : progress < 0.82
+        ? 1 - descentEase * 0.55
+        : 1 - fadeEase;
   applyThrusters(fx, thrust);
   applyDust(fx, progress, 0.58, fadeEase, 1);
 }
