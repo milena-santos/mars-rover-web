@@ -7,12 +7,12 @@ challenge REST endpoints.
 
 **Live**
 
-| Env | URL |
-| --- | --- |
-| Production | https://mars-rover-web-prod.vercel.app |
-| Staging | https://mars-rover-web-staging.vercel.app |
-| API docs (prod) | https://web-production-gbuy.onrender.com/api/docs/ |
-| API docs (staging) | https://web-staging-pntn.onrender.com/api/docs/ |
+| Env                | URL                                                |
+| ------------------ | -------------------------------------------------- |
+| Production         | https://mars-rover-web-prod.vercel.app             |
+| Staging            | https://mars-rover-web-staging.vercel.app          |
+| API docs (prod)    | https://web-production-gbuy.onrender.com/api/docs/ |
+| API docs (staging) | https://web-staging-pntn.onrender.com/api/docs/    |
 
 ## Overview
 
@@ -57,12 +57,12 @@ Open http://127.0.0.1:3000.
 
 ## What the UI does with the API
 
-| UI action | API |
-| --- | --- |
-| Confirm mesh + land at origin | `POST /api/probes/` |
+| UI action                                   | API                               |
+| ------------------------------------------- | --------------------------------- |
+| Confirm mesh + land at origin               | `POST /api/probes/`               |
 | Pilot move / turn (`WASD`, arrows, `Q`/`E`) | `POST /api/probes/{id}/commands/` |
-| Refresh probes / mission state | `GET /api/probes/` |
-| Abandon mission | `DELETE /api/probes/` |
+| Refresh probes / mission state              | `GET /api/probes/`                |
+| Abandon mission                             | `DELETE /api/probes/`             |
 
 ## Flow
 
@@ -89,10 +89,10 @@ npm run audit
 
 GitHub Actions: Format, Lint, Types, Tests, Audit, Build.
 
-| Git branch | Vercel | API |
-| --- | --- | --- |
-| `develop` | Preview / staging domain | Render staging |
-| `main` | Production | Render production |
+| Git branch | Vercel                   | API               |
+| ---------- | ------------------------ | ----------------- |
+| `develop`  | Preview / staging domain | Render staging    |
+| `main`     | Production               | Render production |
 
 Set `VITE_API_URL` per Vercel environment. More workflow detail:
 [CONTRIBUTING.md](./CONTRIBUTING.md).
