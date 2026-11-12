@@ -18,6 +18,13 @@
   --font-display: var(--font-outfit);
   --font-body: var(--font-manrope);
   --font-mono: var(--font-jetbrains);
+  --safe-top: max(0.75rem, env(safe-area-inset-top, 0px));
+  --safe-right: max(0.5rem, env(safe-area-inset-right, 0px));
+  --safe-bottom: max(1.25rem, env(safe-area-inset-bottom, 0px));
+  --safe-left: max(0.5rem, env(safe-area-inset-left, 0px));
+  /* JS (bindAppViewport) sets the strip of the window hidden by a desktop panel. */
+  --app-top: 0px;
+  --app-bottom: 0px;
 }
 
 * {
@@ -25,7 +32,9 @@
 }
 
 html,
-body {
+body,
+#root {
+  width: 100%;
   height: 100%;
   overflow: hidden;
 }
