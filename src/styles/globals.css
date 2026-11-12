@@ -1,0 +1,50 @@
+@import "./mission.css";
+
+:root {
+  --bg: #050505;
+  --surface: rgba(10, 10, 10, 0.62);
+  --primary: #e55838;
+  --primary-hover: #f0a050;
+  --text: #f5f5f5;
+  --muted: #a3a3a3;
+  --border: rgba(255, 255, 255, 0.1);
+  --ok: #7dbe6a;
+  --danger: #e35d4d;
+  --ink: #0a0505;
+  --radius: 2px;
+  --font-outfit: "Outfit", system-ui, sans-serif;
+  --font-manrope: "Manrope", system-ui, sans-serif;
+  --font-jetbrains: "JetBrains Mono", ui-monospace, monospace;
+  --font-display: var(--font-outfit);
+  --font-body: var(--font-manrope);
+  --font-mono: var(--font-jetbrains);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  background: #020208;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}

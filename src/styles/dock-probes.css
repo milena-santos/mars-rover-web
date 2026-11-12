@@ -1,0 +1,94 @@
+.dock-active-trigger {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.35rem;
+  width: 100%;
+  min-width: 0;
+  padding: 0.42rem 0.5rem;
+  border-radius: var(--radius);
+  border: 1px solid rgba(229, 88, 56, 0.45);
+  background: rgba(229, 88, 56, 0.12);
+  color: #ffd7c2;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  text-align: left;
+}
+
+.dock-active-trigger:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(12, 10, 10, 0.92);
+  color: var(--muted);
+}
+
+.dock-active-trigger span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dock-active-dot {
+  width: 0.38rem;
+  height: 0.38rem;
+  border-radius: 50%;
+  background: #ffd7c2;
+  opacity: 0.75;
+  justify-self: end;
+}
+
+.probe-pick-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+  max-height: min(40vh, 16rem);
+  overflow: auto;
+}
+
+.probe-pick-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: inherit;
+  text-align: left;
+}
+
+.probe-pick-row.is-active {
+  border-color: rgba(229, 88, 56, 0.55);
+  background: rgba(229, 88, 56, 0.12);
+}
+
+.probe-pick-row strong {
+  display: block;
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.82rem;
+}
+
+.probe-pick-row small {
+  display: block;
+  margin-top: 0.1rem;
+  color: var(--muted);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.probe-pick-glyph {
+  display: grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  font-size: 0.95rem;
+  color: #ffd7c2;
+}

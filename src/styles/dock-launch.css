@@ -1,0 +1,105 @@
+.dock-launch-row {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.dock-dir-block {
+  display: grid;
+  gap: 0.12rem;
+  min-width: 0;
+}
+
+.dock-dir-hint {
+  color: rgba(245, 245, 245, 0.55);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.48rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.dock-dir-pad {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.18rem;
+  min-width: 0;
+}
+
+.dock-abandon {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0.35rem 0.4rem;
+  border-radius: var(--radius);
+  border: 1px solid rgba(229, 88, 56, 0.55);
+  background: rgba(229, 88, 56, 0.14);
+  color: #ffd7c2;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 600;
+  font-size: 0.55rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dock-abandon:hover:not(:disabled) {
+  background: rgba(229, 88, 56, 0.26);
+  border-color: rgba(229, 88, 56, 0.85);
+}
+
+.dock-abandon:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.dock-dir-key {
+  display: inline-grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  padding: 0;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(12, 10, 10, 0.92);
+  color: rgba(245, 245, 245, 0.72);
+  font-size: 0.68rem;
+}
+
+.dock-dir-key.is-active {
+  border-color: rgba(229, 88, 56, 0.7);
+  background: rgba(229, 88, 56, 0.18);
+  color: #ffd7c2;
+}
+
+.dock-dir-key:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.dock-land {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  padding: 0.42rem 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius);
+  background: var(--primary);
+  color: var(--ink);
+  font-family: var(--font-display), sans-serif;
+  font-weight: 600;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.dock-land:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
