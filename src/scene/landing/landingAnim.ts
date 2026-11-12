@@ -151,13 +151,15 @@ export function animateDelivery({
   droppedRef: MutableRefObject<boolean>;
   onDropRef: MutableRefObject<(() => void) | undefined>;
 }) {
-  const impactAt = 0.54;
+  const impactAt = crash ? 0.52 : 0.54;
+  const breakSpan = 0.14;
   const departAt = 0.6;
   const approachEase = easeOutCubic(segment(progress, 0, 0.34));
   const descentEase = easeInOutCubic(segment(progress, 0.34, 0.16));
   const departEase = crash
     ? 0
     : easeInOutCubic(segment(progress, departAt, 0.4));
+  const breakEase = crash ? segment(progress, impactAt, breakSpan) : 0;
 
   if (progress < 0.34) {
     placeOnCurve(
@@ -199,6 +201,24 @@ export function animateDelivery({
       path.startQuat,
       departEase * 0.9,
     );
+  }
+
+  if (breakEase > 0) {
+    const punch = easeOutCubic(Math.min(1, breakEase * 1.35));
+    rig.position
+      .copy(path.touchdown)
+      .addScaledVector(path.normal, 0.04 + punch * 0.18);
+    ship.position.set(0, punch * 0.05, 0);
+    ship.rotation.x = punch * 0.45;
+    ship.rotation.y = -Math.PI * 0.06 + punch * 1.35;
+    ship.rotation.z = punch * 0.55;
+    ship.scale.setScalar(Math.max(0, 1 - punch * punch));
+    muteLandingFx(fx);
+    if (!droppedRef.current) {
+      droppedRef.current = true;
+      onDropRef.current?.();
+    }
+    return;
   }
 
   const rock = progress < 0.5 ? 1 : progress < departAt ? 0.15 : 0.85;

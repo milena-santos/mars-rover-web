@@ -142,6 +142,7 @@
   background: rgba(2, 2, 8, 0.55);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  pointer-events: auto;
 }
 
 .ops-modal-card {

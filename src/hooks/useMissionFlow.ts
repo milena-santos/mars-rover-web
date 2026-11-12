@@ -28,9 +28,11 @@ export function useMissionFlow() {
   const missionApiRef = useRef<{
     confirmLanding: (probeId: string) => void;
     setSelectedId: (id: string | null) => void;
+    settleCollisionState: () => void | Promise<void>;
   }>({
     confirmLanding: () => {},
     setSelectedId: () => {},
+    settleCollisionState: () => {},
   });
 
   const landing = useLandingSession({
@@ -39,6 +41,7 @@ export function useMissionFlow() {
     clearFx,
     confirmLanding: (probeId) => missionApiRef.current.confirmLanding(probeId),
     setSelectedId: (id) => missionApiRef.current.setSelectedId(id),
+    settleCollisionState: () => missionApiRef.current.settleCollisionState(),
   });
 
   const region = useMemo(() => getRegion(regionId), [regionId]);
@@ -65,6 +68,7 @@ export function useMissionFlow() {
 
   missionApiRef.current.confirmLanding = mission.confirmLanding;
   missionApiRef.current.setSelectedId = mission.setSelectedId;
+  missionApiRef.current.settleCollisionState = mission.settleCollisionState;
 
   useEffect(() => {
     if (!sceneReady) return;
