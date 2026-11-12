@@ -42,14 +42,16 @@ npm run format        # Prettier write
 npm run format:check  # Prettier check (CI)
 npm run lint          # ESLint
 npm run typecheck     # TypeScript
+npm test              # Vitest
 npm run build
 npm run start
 ```
 
 ## CI and CD
 
-GitHub Actions runs **Format** (Prettier), **Lint** (ESLint), **Types**, and
-**Build** on pull requests and on pushes to `develop` / `main`.
+GitHub Actions runs **Format** (Prettier), **Lint** (ESLint), **Types**,
+**Tests** (Vitest), and **Build** on pull requests and on pushes to `develop` /
+`main`.
 
 Branch workflow (same as the API repo):
 

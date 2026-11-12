@@ -23,7 +23,11 @@ export function OlympusBase({ warm, active }: OlympusBaseProps) {
     <group>
       <mesh position={[0, 0.012, 0]}>
         <cylinderGeometry args={[0.18, 0.22, 0.025, 6]} />
-        <meshStandardMaterial color="#2a1810" roughness={0.85} metalness={0.3} />
+        <meshStandardMaterial
+          color="#2a1810"
+          roughness={0.85}
+          metalness={0.3}
+        />
       </mesh>
       <mesh position={[0, 0.08, 0]}>
         <cylinderGeometry args={[0.05, 0.07, 0.13, 8]} />
@@ -43,11 +47,19 @@ export function OlympusBase({ warm, active }: OlympusBaseProps) {
       <group ref={antennaRef} position={[0, 0.18, 0]}>
         <mesh position={[0, 0.12, 0]}>
           <cylinderGeometry args={[0.006, 0.008, 0.24, 6]} />
-          <meshStandardMaterial color="#888888" roughness={0.5} metalness={0.8} />
+          <meshStandardMaterial
+            color="#888888"
+            roughness={0.5}
+            metalness={0.8}
+          />
         </mesh>
         <mesh position={[0.04, 0.24, 0]} rotation={[0, 0, -0.5]}>
           <cylinderGeometry args={[0.05, 0.02, 0.005, 16]} />
-          <meshStandardMaterial color="#b7b3ac" roughness={0.26} metalness={0.88} />
+          <meshStandardMaterial
+            color="#b7b3ac"
+            roughness={0.26}
+            metalness={0.88}
+          />
         </mesh>
       </group>
       <Beacon color={warm} />

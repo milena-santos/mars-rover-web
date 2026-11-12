@@ -37,7 +37,9 @@ export function cubicBezierPoint(
   controlB: THREE.Vector3,
   end: THREE.Vector3,
 ) {
-  return new THREE.CubicBezierCurve3(start, controlA, controlB, end).getPoint(t);
+  return new THREE.CubicBezierCurve3(start, controlA, controlB, end).getPoint(
+    t,
+  );
 }
 
 function landOrientation(

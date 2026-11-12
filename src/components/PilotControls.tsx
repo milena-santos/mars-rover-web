@@ -18,8 +18,18 @@ const KEYS: Array<{
   { key: "A", aria: "Oeste", action: { type: "step", cardinal: "WEST" } },
   { key: "S", aria: "Sul", action: { type: "step", cardinal: "SOUTH" } },
   { key: "D", aria: "Leste", action: { type: "step", cardinal: "EAST" } },
-  { key: "Q", aria: "Girar esquerda", action: { type: "turn", command: "L" }, turn: true },
-  { key: "E", aria: "Girar direita", action: { type: "turn", command: "R" }, turn: true },
+  {
+    key: "Q",
+    aria: "Girar esquerda",
+    action: { type: "turn", command: "L" },
+    turn: true,
+  },
+  {
+    key: "E",
+    aria: "Girar direita",
+    action: { type: "turn", command: "R" },
+    turn: true,
+  },
 ];
 
 export function PilotControls({ disabled, onAction }: PilotControlsProps) {

@@ -4,14 +4,28 @@ import { MISSION_REGIONS, type MissionRegion } from "@/lib/regions";
 
 type RegionPanelProps = {
   onSelect: (region: MissionRegion) => void;
+  onClose: () => void;
 };
 
-export function RegionPanel({ onSelect }: RegionPanelProps) {
+export function RegionPanel({ onSelect, onClose }: RegionPanelProps) {
   return (
-    <div className="ops-modal" role="dialog" aria-modal="true" aria-label="Região">
+    <div
+      className="ops-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Região"
+    >
       <section className="ops-modal-card glass">
+        <button
+          type="button"
+          className="ops-modal-close"
+          aria-label="Fechar"
+          onClick={onClose}
+        >
+          ×
+        </button>
         <p className="panel-kicker">Região</p>
-        <h2>Escolha o teatro</h2>
+        <h2>Escolha a região</h2>
         <ul className="region-list">
           {MISSION_REGIONS.map((item) => (
             <li key={item.id}>

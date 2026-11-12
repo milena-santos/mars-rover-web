@@ -12,7 +12,11 @@ export type MissionRegion = {
 
 const R = 2;
 
-export function surfacePoint(latDeg: number, lonDeg: number, radius = R): [number, number, number] {
+export function surfacePoint(
+  latDeg: number,
+  lonDeg: number,
+  radius = R,
+): [number, number, number] {
   const lat = (latDeg * Math.PI) / 180;
   const lon = (lonDeg * Math.PI) / 180;
   return [

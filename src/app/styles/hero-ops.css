@@ -59,6 +59,7 @@
 }
 
 .ops-modal-card {
+  position: relative;
   width: min(100%, 22rem);
   max-height: min(100dvh - 1.5rem, 100%);
   padding: 0.9rem;
@@ -68,6 +69,29 @@
   gap: 0.45rem;
   overflow: auto;
   animation: panel-in 420ms ease;
+}
+
+.ops-modal-close {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.5rem;
+  width: 1.7rem;
+  height: 1.7rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.25rem;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+}
+
+.ops-modal-close:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .ops-modal-card h2 {
@@ -183,7 +207,9 @@
   white-space: nowrap;
   opacity: 0;
   transform: translateY(4px);
-  transition: opacity 180ms ease, transform 180ms ease;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
   backdrop-filter: blur(8px);
 }
 
@@ -193,4 +219,3 @@
   transform: translateY(0);
   border-color: color-mix(in srgb, var(--pin-color, #e55838) 45%, transparent);
 }
-

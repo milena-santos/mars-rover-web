@@ -18,7 +18,9 @@ export function OrbitalCraft({ color, active }: OrbitalCraftProps) {
     const clone = scene.clone(true);
     clone.traverse((node) => {
       if (!(node instanceof THREE.Mesh) || !node.material) return;
-      const source = Array.isArray(node.material) ? node.material : [node.material];
+      const source = Array.isArray(node.material)
+        ? node.material
+        : [node.material];
       const next = source.map((item) => {
         const material = item.clone();
         if (!(material instanceof THREE.MeshStandardMaterial)) return material;
@@ -45,7 +47,12 @@ export function OrbitalCraft({ color, active }: OrbitalCraftProps) {
       />
       <mesh position={[0.32, 0.76, 0.18]}>
         <sphereGeometry args={[0.06, 16, 16]} />
-        <meshBasicMaterial color={warm} transparent opacity={0.76} toneMapped={false} />
+        <meshBasicMaterial
+          color={warm}
+          transparent
+          opacity={0.76}
+          toneMapped={false}
+        />
       </mesh>
     </group>
   );

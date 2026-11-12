@@ -13,7 +13,11 @@ type CollisionBurstProps = {
 const COUNT = 48;
 const DURATION = 1.9;
 
-export function CollisionBurst({ position, normal, onDone }: CollisionBurstProps) {
+export function CollisionBurst({
+  position,
+  normal,
+  onDone,
+}: CollisionBurstProps) {
   const flashRef = useRef<THREE.Mesh>(null);
   const flashMat = useRef<THREE.MeshBasicMaterial>(null);
   const lightRef = useRef<THREE.PointLight>(null);
@@ -40,7 +44,10 @@ export function CollisionBurst({ position, normal, onDone }: CollisionBurstProps
   );
 
   const { positions, velocities, colors } = useMemo(() => {
-    const east = new THREE.Vector3().crossVectors(new THREE.Vector3(0, 1, 0), nVec);
+    const east = new THREE.Vector3().crossVectors(
+      new THREE.Vector3(0, 1, 0),
+      nVec,
+    );
     if (east.lengthSq() < 1e-6) east.set(1, 0, 0).cross(nVec);
     east.normalize();
     const north = new THREE.Vector3().crossVectors(nVec, east).normalize();
@@ -97,7 +104,9 @@ export function CollisionBurst({ position, normal, onDone }: CollisionBurstProps
 
     const pts = pointsRef.current;
     if (pts) {
-      const attr = pts.geometry.getAttribute("position") as THREE.BufferAttribute;
+      const attr = pts.geometry.getAttribute(
+        "position",
+      ) as THREE.BufferAttribute;
       for (let i = 0; i < COUNT; i += 1) {
         const ix = i * 3;
         attr.array[ix] = velocities[ix] * t * 1.2;

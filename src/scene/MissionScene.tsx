@@ -23,11 +23,7 @@ import { SceneEffects } from "@/scene/SceneEffects";
 import { Starfield } from "@/scene/Starfield";
 
 export type ScenePhase =
-  | "intro"
-  | "explore"
-  | "select-region"
-  | "setup-mesh"
-  | "mission";
+  "intro" | "explore" | "select-region" | "setup-mesh" | "mission";
 
 export type BlastFx = {
   key: number;
@@ -78,7 +74,8 @@ export function MissionScene({
   const picking = phase === "select-region";
   const inMission = phase === "mission";
   const orbitEnabled =
-    !introLanding && (phase === "explore" || picking || inMission || landerActive);
+    !introLanding &&
+    (phase === "explore" || picking || inMission || landerActive);
   const focused = useMemo(
     () =>
       resolveSceneCamera({
@@ -111,13 +108,21 @@ export function MissionScene({
   return (
     <div className="mission-canvas">
       <Canvas
-        camera={{ position: VEILED_CAMERA.position, fov: 42, near: 0.1, far: 220 }}
+        camera={{
+          position: VEILED_CAMERA.position,
+          fov: 42,
+          near: 0.1,
+          far: 220,
+        }}
         dpr={[1, 1.75]}
         gl={{ antialias: true, powerPreference: "high-performance" }}
         onCreated={() => onReady?.()}
       >
         <color attach="background" args={["#020208"]} />
-        <fog attach="fog" args={["#020208", veiled ? 16 : 22, veiled ? 48 : 55]} />
+        <fog
+          attach="fog"
+          args={["#020208", veiled ? 16 : 22, veiled ? 48 : 55]}
+        />
         <ambientLight intensity={veiled ? 0.14 : 0.2} color="#f6cfaa" />
         <directionalLight
           position={[6, 4.5, 2]}

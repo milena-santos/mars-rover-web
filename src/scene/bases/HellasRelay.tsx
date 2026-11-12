@@ -25,7 +25,11 @@ export function HellasRelay({ warm, active }: HellasRelayProps) {
     <group>
       <mesh position={[0, 0.014, 0]}>
         <cylinderGeometry args={[0.21, 0.24, 0.028, 8]} />
-        <meshStandardMaterial color="#22140e" roughness={0.86} metalness={0.24} />
+        <meshStandardMaterial
+          color="#22140e"
+          roughness={0.86}
+          metalness={0.24}
+        />
       </mesh>
       <mesh position={[0, 0.19, 0]}>
         <cylinderGeometry args={[0.065, 0.085, 0.16, 8]} />

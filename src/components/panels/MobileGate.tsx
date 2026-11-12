@@ -2,7 +2,12 @@
 
 export function MobileGate() {
   return (
-    <div className="mobile-gate" role="dialog" aria-modal="true" aria-label="Tela incompatível">
+    <div
+      className="mobile-gate"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Tela incompatível"
+    >
       <section className="mobile-gate-card glass">
         <p className="panel-kicker">Mission Control</p>
         <h2>Precisa de tela larga</h2>

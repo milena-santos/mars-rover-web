@@ -7,7 +7,10 @@ type IntroPanelProps = {
 export function IntroPanel({ onStart }: IntroPanelProps) {
   return (
     <section className="hero-intro" onClick={onStart}>
-      <div className="hero-intro-shell" onClick={(event) => event.stopPropagation()}>
+      <div
+        className="hero-intro-shell"
+        onClick={(event) => event.stopPropagation()}
+      >
         <div className="hero-intro-grid">
           <div className="hero-intro-main">
             <p className="eyebrow">Mars Rover · Mission Control</p>
@@ -29,7 +32,9 @@ export function IntroPanel({ onStart }: IntroPanelProps) {
 
           <aside className="hero-intro-meta" aria-hidden>
             <span>LAT 14.5684° N · LON −175.4729°</span>
-            <span className="hero-intro-meta-accent">MARTE · OBSERVATÓRIO ABERTO</span>
+            <span className="hero-intro-meta-accent">
+              MARTE · OBSERVATÓRIO ABERTO
+            </span>
             <span>ATM 0.006 atm · −63°C média</span>
           </aside>
         </div>

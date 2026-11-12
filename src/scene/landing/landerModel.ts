@@ -4,11 +4,15 @@ export function normalizeLanderScene(scene: THREE.Object3D): THREE.Object3D {
   const clone = scene.clone(true);
   clone.traverse((node) => {
     if (!(node instanceof THREE.Mesh) || !node.material) return;
-    const source = Array.isArray(node.material) ? node.material : [node.material];
+    const source = Array.isArray(node.material)
+      ? node.material
+      : [node.material];
     const next = source.map((item) => {
       const material = item.clone();
       if (!(material instanceof THREE.MeshStandardMaterial)) return material;
-      material.color = material.color.clone().lerp(new THREE.Color("#d7d2c7"), 0.12);
+      material.color = material.color
+        .clone()
+        .lerp(new THREE.Color("#d7d2c7"), 0.12);
       material.roughness = 0.34;
       material.metalness = 0.82;
       return material;

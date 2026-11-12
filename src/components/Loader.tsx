@@ -74,9 +74,7 @@ export function Loader({ visible }: LoaderProps) {
           <div className="boot-loader-track" aria-hidden>
             <span style={{ width: `${progress}%` }} />
           </div>
-          <p className="boot-loader-link">
-            {label}% · LINK
-          </p>
+          <p className="boot-loader-link">{label}% · LINK</p>
         </div>
       </div>
     </div>

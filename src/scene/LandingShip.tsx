@@ -95,7 +95,8 @@ export function LandingShip({
     progressRef.current = Math.min(1, progressRef.current + delta / DURATION);
     const progress = progressRef.current;
     const approach = Math.min(progress / 0.58, 1);
-    const descent = progress <= 0.58 ? 0 : Math.min((progress - 0.58) / 0.24, 1);
+    const descent =
+      progress <= 0.58 ? 0 : Math.min((progress - 0.58) / 0.24, 1);
     const fade = progress <= 0.82 ? 0 : Math.min((progress - 0.82) / 0.18, 1);
     const approachEase = easeOutCubic(approach);
     const descentEase = easeInOutCubic(descent);
@@ -141,7 +142,11 @@ export function LandingShip({
     }
 
     const thrust =
-      progress < 0.58 ? 1 : progress < 0.82 ? 1 - descentEase * 0.55 : 1 - fadeEase;
+      progress < 0.58
+        ? 1
+        : progress < 0.82
+          ? 1 - descentEase * 0.55
+          : 1 - fadeEase;
     const thrustMul = isProbe ? 0.45 : 1;
     if (thrusterMat.current) {
       thrusterMat.current.opacity = (0.08 + thrust * 0.38) * thrustMul;
@@ -160,8 +165,10 @@ export function LandingShip({
           ? easeInOutCubic((progress - 0.58) / 0.32)
           : 1 - fadeEase;
     const dustMul = isProbe ? 0.4 : 1;
-    if (dustOuterMat.current) dustOuterMat.current.opacity = dust * 0.1 * dustMul;
-    if (dustInnerMat.current) dustInnerMat.current.opacity = dust * 0.16 * dustMul;
+    if (dustOuterMat.current)
+      dustOuterMat.current.opacity = dust * 0.1 * dustMul;
+    if (dustInnerMat.current)
+      dustInnerMat.current.opacity = dust * 0.16 * dustMul;
     if (dustOuter.current) {
       dustOuter.current.scale.setScalar(1 + dust * (isProbe ? 1.4 : 2.8));
     }
@@ -197,7 +204,10 @@ export function LandingShip({
             toneMapped={false}
           />
         </mesh>
-        <mesh position={[0, isProbe ? 0.01 : 0.02, 0]} scale={isProbe ? 0.55 : 1}>
+        <mesh
+          position={[0, isProbe ? 0.01 : 0.02, 0]}
+          scale={isProbe ? 0.55 : 1}
+        >
           <cylinderGeometry args={[0.09, 0.14, 0.08, 20]} />
           <meshBasicMaterial
             ref={glowMat}

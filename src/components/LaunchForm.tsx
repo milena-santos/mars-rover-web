@@ -28,7 +28,11 @@ export function LaunchForm({
     <section className="dock-launch" aria-label="Pouso">
       <span className="dock-band-label">Pouso</span>
       <div className="dock-launch-row">
-        <div className="dock-dir-pad" role="group" aria-label="Direção de pouso">
+        <div
+          className="dock-dir-pad"
+          role="group"
+          aria-label="Direção de pouso"
+        >
           {DIRECTIONS.map((item) => (
             <button
               key={item}

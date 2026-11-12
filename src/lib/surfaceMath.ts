@@ -19,14 +19,19 @@ export function orientationFromNormal(normal: THREE.Vector3): THREE.Quaternion {
   );
 }
 
-export function tangentFrame(lat: number, lon: number): {
+export function tangentFrame(
+  lat: number,
+  lon: number,
+): {
   origin: THREE.Vector3;
   normal: THREE.Vector3;
   east: THREE.Vector3;
   north: THREE.Vector3;
 } {
   const normal = surfaceNormal(lat, lon);
-  const origin = new THREE.Vector3(...surfacePoint(lat, lon, MARS_R + SURFACE_LIFT));
+  const origin = new THREE.Vector3(
+    ...surfacePoint(lat, lon, MARS_R + SURFACE_LIFT),
+  );
   const east = new THREE.Vector3()
     .crossVectors(new THREE.Vector3(0, 1, 0), normal)
     .normalize();
@@ -41,7 +46,10 @@ function projectToSurface(
   point: THREE.Vector3,
   lift = SURFACE_LIFT,
 ): THREE.Vector3 {
-  return point.clone().normalize().multiplyScalar(MARS_R + lift);
+  return point
+    .clone()
+    .normalize()
+    .multiplyScalar(MARS_R + lift);
 }
 
 export function plateauFrame(region: MissionRegion): {

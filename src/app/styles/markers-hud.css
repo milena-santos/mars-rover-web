@@ -8,7 +8,9 @@
   padding: 0;
   color: inherit;
   white-space: nowrap;
-  transition: opacity 350ms ease, transform 350ms ease;
+  transition:
+    opacity 350ms ease,
+    transform 350ms ease;
 }
 
 .orbit-marker-line {
@@ -64,8 +66,13 @@
   opacity: 1;
   transform: translateX(0);
   background: rgba(10, 10, 10, 0.52);
-  border-color: color-mix(in srgb, var(--orbit-color, #e55838) 53%, transparent);
-  box-shadow: 0 0 10px color-mix(in srgb, var(--orbit-color, #e55838) 12%, transparent);
+  border-color: color-mix(
+    in srgb,
+    var(--orbit-color, #e55838) 53%,
+    transparent
+  );
+  box-shadow: 0 0 10px
+    color-mix(in srgb, var(--orbit-color, #e55838) 12%, transparent);
 }
 
 .orbit-marker.is-hovered .orbit-marker-card span {
@@ -558,8 +565,16 @@
 
 .fx-flash-blast {
   background:
-    radial-gradient(circle at 50% 58%, rgba(255, 140, 70, 0.55), transparent 28%),
-    radial-gradient(circle at 48% 55%, rgba(229, 88, 56, 0.35), transparent 52%),
+    radial-gradient(
+      circle at 50% 58%,
+      rgba(255, 140, 70, 0.55),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 48% 55%,
+      rgba(229, 88, 56, 0.35),
+      transparent 52%
+    ),
     rgba(8, 2, 2, 0.42);
   animation: collision-blast 2.1s ease forwards;
 }
@@ -659,4 +674,3 @@
     transform: scale(1.04);
   }
 }
-

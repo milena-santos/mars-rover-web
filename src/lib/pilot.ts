@@ -36,8 +36,7 @@ const KEY_TO_TURN: Record<string, "L" | "R"> = {
 export type Cardinal = Direction;
 
 export type PilotAction =
-  | { type: "step"; cardinal: Cardinal }
-  | { type: "turn"; command: "L" | "R" };
+  { type: "step"; cardinal: Cardinal } | { type: "turn"; command: "L" | "R" };
 
 export function turnsToFace(from: Direction, to: Direction): string {
   const fromIdx = ORDER.indexOf(from);
@@ -55,7 +54,10 @@ export function actionToCommands(probe: Probe, action: PilotAction): string {
   return commandsToStep(probe.direction, action.cardinal);
 }
 
-export function stepTarget(probe: Probe, cardinal: Direction): { x: number; y: number } {
+export function stepTarget(
+  probe: Probe,
+  cardinal: Direction,
+): { x: number; y: number } {
   const step = STEP[cardinal];
   return { x: probe.x + step.dx, y: probe.y + step.dy };
 }

@@ -71,7 +71,10 @@ export function Experience() {
           <ExplorePanel onChooseRegion={() => flow.setPhase("select-region")} />
         ) : null}
         {flow.showFlowHud && flow.phase === "select-region" ? (
-          <RegionPanel onSelect={flow.selectRegion} />
+          <RegionPanel
+            onSelect={flow.selectRegion}
+            onClose={() => flow.setPhase("explore")}
+          />
         ) : null}
         {flow.showFlowHud && flow.phase === "setup-mesh" && region ? (
           <SetupPanel

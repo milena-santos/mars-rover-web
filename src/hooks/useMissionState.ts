@@ -6,11 +6,7 @@ import { useMissionBootstrap } from "@/hooks/useMissionBootstrap";
 import { usePilotQueue } from "@/hooks/usePilotQueue";
 import { clearProbes, launchProbe } from "@/lib/api";
 import { collisionStatus, humanizeApiError } from "@/lib/errors";
-import {
-  clearStoredPlateau,
-  parseMeshSize,
-  storePlateau,
-} from "@/lib/plateau";
+import { clearStoredPlateau, parseMeshSize, storePlateau } from "@/lib/plateau";
 import { probeLabel } from "@/lib/probeLabel";
 import type { CollisionFxEvent, Direction, Plateau, Probe } from "@/lib/types";
 
@@ -106,7 +102,9 @@ export function useMissionState({
       const nextProbes = await refreshProbes(result.probe.id);
       probesRef.current = nextProbes;
       setSelectedId(result.probe.id);
-      setStatus(`${probeLabel(nextProbes, result.probe.id)} em descida para (0, 0).`);
+      setStatus(
+        `${probeLabel(nextProbes, result.probe.id)} em descida para (0, 0).`,
+      );
       onLaunchSuccessRef.current?.(result.probe.id);
     } catch (err) {
       setError(humanizeApiError(err, "Falha ao pousar sonda."));

@@ -14,7 +14,10 @@ type MarsPlanetProps = {
 export function MarsPlanet({ spinning = true }: MarsPlanetProps) {
   const groupRef = useRef<THREE.Group>(null);
   const { gl } = useThree();
-  const albedo = useLoader(THREE.TextureLoader, "/textures/mars-color-nasa.jpg");
+  const albedo = useLoader(
+    THREE.TextureLoader,
+    "/textures/mars-color-nasa.jpg",
+  );
 
   useEffect(() => {
     albedo.colorSpace = THREE.SRGBColorSpace;

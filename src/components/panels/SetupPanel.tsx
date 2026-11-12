@@ -26,7 +26,12 @@ export function SetupPanel({
     parseMeshSize(meshX) !== null && parseMeshSize(meshY) !== null;
 
   return (
-    <div className="ops-modal" role="dialog" aria-modal="true" aria-label="Malha">
+    <div
+      className="ops-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Malha"
+    >
       <section className="ops-modal-card glass">
         <p className="panel-kicker">{region.code}</p>
         <h2>{region.name}</h2>

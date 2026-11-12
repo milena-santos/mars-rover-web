@@ -30,7 +30,8 @@ export function useMissionFlow() {
   const region = useMemo(() => getRegion(regionId), [regionId]);
   const regionLocked = phase === "setup-mesh" || phase === "mission";
   const showFlowHud = !introLanding && !landerActive;
-  const showMissionHud = phase === "mission" && Boolean(region) && !introLanding;
+  const showMissionHud =
+    phase === "mission" && Boolean(region) && !introLanding;
   const showIntro = phase === "intro" && !introLanding;
 
   function releaseRegion() {

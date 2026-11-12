@@ -34,7 +34,10 @@ export function ProbeMarkers({
   hiddenId = null,
   onSelect,
 }: ProbeMarkersProps) {
-  const roverScale = Math.min(Math.max(plateauCellSize(plateau) * 2.4, 0.22), 0.36);
+  const roverScale = Math.min(
+    Math.max(plateauCellSize(plateau) * 2.4, 0.22),
+    0.36,
+  );
 
   return (
     <group>

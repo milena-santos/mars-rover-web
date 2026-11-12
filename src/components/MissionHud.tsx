@@ -52,7 +52,9 @@ export function MissionHud({
         <div className="dock-head">
           <p className="panel-kicker">{region.name}</p>
           <span>
-            {visiblePlateau ? `${visiblePlateau.maxX}×${visiblePlateau.maxY}` : "—"}
+            {visiblePlateau
+              ? `${visiblePlateau.maxX}×${visiblePlateau.maxY}`
+              : "—"}
           </span>
         </div>
 
@@ -111,7 +113,12 @@ export function MissionHud({
       ) : null}
 
       {confirmAbandon ? (
-        <div className="ops-modal" role="dialog" aria-modal="true" aria-label="Abandonar">
+        <div
+          className="ops-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Abandonar"
+        >
           <section className="ops-modal-card glass">
             <p className="panel-kicker">Missão</p>
             <h2>Abandonar missão?</h2>

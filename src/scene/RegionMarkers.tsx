@@ -10,10 +10,7 @@ import {
   type MissionRegion,
 } from "@/lib/regions";
 import { orientationFromNormal, surfaceNormal } from "@/lib/surfaceMath";
-import {
-  SurfaceBase,
-  type BaseVariant,
-} from "@/scene/SurfaceBase";
+import { SurfaceBase, type BaseVariant } from "@/scene/SurfaceBase";
 
 type RegionMarkersProps = {
   selectedId: string | null;

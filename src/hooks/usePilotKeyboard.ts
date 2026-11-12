@@ -2,11 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-import {
-  keyToCardinal,
-  keyToTurn,
-  type PilotAction,
-} from "@/lib/pilot";
+import { keyToCardinal, keyToTurn, type PilotAction } from "@/lib/pilot";
 
 function isEditableTarget(target: EventTarget | null): boolean {
   if (!(target instanceof HTMLElement)) return false;
@@ -14,7 +10,9 @@ function isEditableTarget(target: EventTarget | null): boolean {
   if (tag === "TEXTAREA" || tag === "SELECT") return true;
   if (tag !== "INPUT") return false;
   const type = (target as HTMLInputElement).type;
-  return type === "text" || type === "search" || type === "password" || type === "";
+  return (
+    type === "text" || type === "search" || type === "password" || type === ""
+  );
 }
 
 type UsePilotKeyboardOptions = {
@@ -33,7 +31,8 @@ export function usePilotKeyboard({
     if (!enabled) return;
 
     function onKeyDown(event: KeyboardEvent) {
-      if (event.metaKey || event.ctrlKey || event.altKey || event.repeat) return;
+      if (event.metaKey || event.ctrlKey || event.altKey || event.repeat)
+        return;
       const cardinal = keyToCardinal(event.key);
       const turn = keyToTurn(event.key);
       if (!cardinal && !turn) return;

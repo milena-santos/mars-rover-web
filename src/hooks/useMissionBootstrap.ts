@@ -4,11 +4,7 @@ import { useEffect, type Dispatch, type SetStateAction } from "react";
 
 import { listProbes } from "@/lib/api";
 import { humanizeApiError } from "@/lib/errors";
-import {
-  inferPlateau,
-  readStoredPlateau,
-  storePlateau,
-} from "@/lib/plateau";
+import { inferPlateau, readStoredPlateau, storePlateau } from "@/lib/plateau";
 import type { Plateau, Probe } from "@/lib/types";
 
 type BootstrapArgs = {
@@ -74,5 +70,15 @@ export function useMissionBootstrap({
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [
+    setApiOnline,
+    setError,
+    setMeshX,
+    setMeshY,
+    setPlateau,
+    setProbes,
+    setReady,
+    setSelectedId,
+    setStatus,
+  ]);
 }

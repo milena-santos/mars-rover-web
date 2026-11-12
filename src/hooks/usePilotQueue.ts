@@ -56,8 +56,12 @@ export function usePilotQueue({
       preferredId ??
       selectedIdRef.current ??
       (response.probes.length > 0 ? response.probes[0].id : null);
-    const stillExists = response.probes.some((probe) => probe.id === nextSelected);
-    setSelectedId(stillExists ? nextSelected : (response.probes[0]?.id ?? null));
+    const stillExists = response.probes.some(
+      (probe) => probe.id === nextSelected,
+    );
+    setSelectedId(
+      stillExists ? nextSelected : (response.probes[0]?.id ?? null),
+    );
     return response.probes;
   }
 
