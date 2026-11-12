@@ -1,6 +1,14 @@
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+
+import {
+  fillBurstLayer,
+  makeBurstGeometry,
+  stepEmbers,
+  stepSmoke,
+} from "@/scene/collision/burstParticles";
+import { makeSoftDisc } from "@/scene/collision/softDisc";
 
 type CollisionBurstProps = {
   position: [number, number, number];
@@ -8,8 +16,9 @@ type CollisionBurstProps = {
   onDone?: () => void;
 };
 
-const COUNT = 48;
-const DURATION = 1.9;
+const EMBERS = 48;
+const SMOKE = 36;
+const DURATION = 1.55;
 
 export function CollisionBurst({
   position,
@@ -18,10 +27,11 @@ export function CollisionBurst({
 }: CollisionBurstProps) {
   const flashRef = useRef<THREE.Mesh>(null);
   const flashMat = useRef<THREE.MeshBasicMaterial>(null);
-  const lightRef = useRef<THREE.PointLight>(null);
   const ringRef = useRef<THREE.Mesh>(null);
   const ringMat = useRef<THREE.MeshBasicMaterial>(null);
-  const pointsRef = useRef<THREE.Points>(null);
+  const lightRef = useRef<THREE.PointLight>(null);
+  const emberRef = useRef<THREE.Points>(null);
+  const smokeRef = useRef<THREE.Points>(null);
   const progressRef = useRef(0);
   const doneRef = useRef(false);
   const onDoneRef = useRef(onDone);
@@ -31,7 +41,15 @@ export function CollisionBurst({
     () => new THREE.Vector3(...normal).normalize(),
     [normal],
   );
-
+  const softMap = useMemo(() => makeSoftDisc(), []);
+  const embers = useMemo(
+    () => fillBurstLayer(EMBERS, nVec, 0.28, 0.75, 0.15, 0.85),
+    [nVec],
+  );
+  const smoke = useMemo(
+    () => fillBurstLayer(SMOKE, nVec, 0.1, 0.35, 0.1, 0.5),
+    [nVec],
+  );
   const ringQuat = useMemo(
     () =>
       new THREE.Quaternion().setFromUnitVectors(
@@ -40,81 +58,46 @@ export function CollisionBurst({
       ),
     [nVec],
   );
+  const emberGeo = useMemo(() => makeBurstGeometry(embers), [embers]);
+  const smokeGeo = useMemo(() => makeBurstGeometry(smoke), [smoke]);
 
-  const { positions, velocities, colors } = useMemo(() => {
-    const east = new THREE.Vector3().crossVectors(
-      new THREE.Vector3(0, 1, 0),
-      nVec,
-    );
-    if (east.lengthSq() < 1e-6) east.set(1, 0, 0).cross(nVec);
-    east.normalize();
-    const north = new THREE.Vector3().crossVectors(nVec, east).normalize();
-
-    const positions = new Float32Array(COUNT * 3);
-    const velocities = new Float32Array(COUNT * 3);
-    const colors = new Float32Array(COUNT * 3);
-    for (let i = 0; i < COUNT; i += 1) {
-      const angle = Math.random() * Math.PI * 2;
-      const elev = 0.2 + Math.random() * 0.8;
-      const speed = 0.4 + Math.random() * 1.05;
-      const dir = nVec
-        .clone()
-        .multiplyScalar(elev)
-        .add(east.clone().multiplyScalar(Math.cos(angle) * (1 - elev * 0.3)))
-        .add(north.clone().multiplyScalar(Math.sin(angle) * (1 - elev * 0.3)))
-        .normalize()
-        .multiplyScalar(speed);
-      velocities[i * 3] = dir.x;
-      velocities[i * 3 + 1] = dir.y;
-      velocities[i * 3 + 2] = dir.z;
-      const hot = Math.random();
-      colors[i * 3] = 1;
-      colors[i * 3 + 1] = 0.32 + hot * 0.5;
-      colors[i * 3 + 2] = 0.1 + hot * 0.2;
-    }
-    return { positions, velocities, colors };
-  }, [nVec]);
-
-  const geometry = useMemo(() => {
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    geo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-    return geo;
-  }, [colors, positions]);
+  useEffect(() => {
+    return () => {
+      softMap.dispose();
+      emberGeo.dispose();
+      smokeGeo.dispose();
+    };
+  }, [emberGeo, softMap, smokeGeo]);
 
   useFrame((_, delta) => {
     progressRef.current = Math.min(1, progressRef.current + delta / DURATION);
     const t = progressRef.current;
-    const burst = Math.min(1, t / 0.18);
-    const fade = t < 0.4 ? 1 : 1 - (t - 0.4) / 0.6;
+    const punch = Math.min(1, t / 0.12);
 
     if (flashRef.current && flashMat.current) {
-      flashRef.current.scale.setScalar(0.06 + burst * 0.62);
-      flashMat.current.opacity = Math.max(0, (1 - t * 1.7) * 0.9);
+      flashRef.current.scale.setScalar(0.04 + punch * 0.2 * (1 - t * 0.75));
+      flashMat.current.opacity = Math.max(0, (1 - t * 2.2) * 0.45);
     }
     if (ringRef.current && ringMat.current) {
-      ringRef.current.scale.setScalar(0.25 + t * 2.2);
-      ringMat.current.opacity = Math.max(0, (1 - t) * 0.42);
+      ringRef.current.scale.setScalar(0.18 + t * 1.8);
+      ringMat.current.opacity = Math.max(0, (1 - t) * 0.28);
     }
     if (lightRef.current) {
-      lightRef.current.intensity = Math.max(0, (1 - t * 1.35) * 5.2);
+      lightRef.current.intensity = Math.max(0, (1 - t * 1.9) * 3.2);
     }
 
-    const pts = pointsRef.current;
-    if (pts) {
-      const attr = pts.geometry.getAttribute(
-        "position",
-      ) as THREE.BufferAttribute;
-      for (let i = 0; i < COUNT; i += 1) {
-        const ix = i * 3;
-        attr.array[ix] = velocities[ix] * t * 1.2;
-        attr.array[ix + 1] = velocities[ix + 1] * t * 1.2;
-        attr.array[ix + 2] = velocities[ix + 2] * t * 1.2;
-      }
-      attr.needsUpdate = true;
-      const mat = pts.material as THREE.PointsMaterial;
-      mat.opacity = Math.max(0, fade);
-      mat.size = 0.05 + (1 - t) * 0.05;
+    stepEmbers(embers, emberRef.current, t, nVec);
+    stepSmoke(smoke, smokeRef.current, t, nVec);
+
+    if (emberRef.current) {
+      const mat = emberRef.current.material as THREE.PointsMaterial;
+      mat.size = 0.1 * (1.05 - t * 0.4);
+      mat.opacity = Math.max(0, 0.75 * (1 - t * 0.9));
+    }
+    if (smokeRef.current) {
+      const mat = smokeRef.current.material as THREE.PointsMaterial;
+      mat.size = 0.22 + t * 0.4;
+      mat.opacity = Math.max(0, 0.38 * (1 - t));
     }
 
     if (t < 1 || doneRef.current) return;
@@ -125,43 +108,61 @@ export function CollisionBurst({
   return (
     <group position={position}>
       <mesh ref={flashRef}>
-        <sphereGeometry args={[1, 16, 16]} />
+        <sphereGeometry args={[1, 20, 20]} />
         <meshBasicMaterial
           ref={flashMat}
-          color="#ffc090"
+          color="#e07030"
           transparent
-          opacity={0.85}
+          opacity={0.4}
           depthWrite={false}
           toneMapped={false}
         />
       </mesh>
       <mesh ref={ringRef} quaternion={ringQuat}>
-        <ringGeometry args={[0.1, 0.18, 48]} />
+        <ringGeometry args={[0.14, 0.22, 48]} />
         <meshBasicMaterial
           ref={ringMat}
-          color="#e55838"
+          color="#c45a28"
           transparent
-          opacity={0.35}
+          opacity={0.3}
           depthWrite={false}
           side={THREE.DoubleSide}
           toneMapped={false}
         />
       </mesh>
-      <points ref={pointsRef} geometry={geometry}>
+
+      <points ref={emberRef} geometry={emberGeo}>
         <pointsMaterial
-          size={0.07}
+          map={softMap}
+          size={0.1}
+          sizeAttenuation
           vertexColors
           transparent
           depthWrite={false}
-          blending={THREE.AdditiveBlending}
+          blending={THREE.NormalBlending}
           toneMapped={false}
+          opacity={0.75}
         />
       </points>
+      <points ref={smokeRef} geometry={smokeGeo}>
+        <pointsMaterial
+          map={softMap}
+          size={0.24}
+          sizeAttenuation
+          vertexColors
+          transparent
+          depthWrite={false}
+          blending={THREE.NormalBlending}
+          toneMapped={false}
+          opacity={0.35}
+        />
+      </points>
+
       <pointLight
         ref={lightRef}
-        color="#ff6a30"
-        intensity={4.5}
-        distance={2.8}
+        color="#d45a28"
+        intensity={3}
+        distance={2.6}
         decay={2}
       />
     </group>

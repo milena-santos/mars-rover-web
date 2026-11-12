@@ -33,21 +33,15 @@ export function clearStoredPlateau(): void {
   window.sessionStorage.removeItem(PLATEAU_STORAGE_KEY);
 }
 
-export function inferPlateau(
+/** Prefer the shared plateau from the API; never invent size from probe positions. */
+export function resolveMissionPlateau(
+  apiPlateau: Plateau | null,
+  stored: Plateau | null,
   probes: Probe[],
-  current: Plateau | null,
 ): Plateau | null {
-  if (current) return current;
+  if (apiPlateau) return apiPlateau;
   if (probes.length === 0) return null;
-
-  let maxX = 0;
-  let maxY = 0;
-  for (const probe of probes) {
-    if (probe.x > maxX) maxX = probe.x;
-    if (probe.y > maxY) maxY = probe.y;
-  }
-
-  return { maxX, maxY };
+  return stored;
 }
 
 export function parseMeshSize(value: string): number | null {

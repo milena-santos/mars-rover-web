@@ -90,14 +90,14 @@
   justify-content: center;
   width: 100%;
   min-width: 0;
-  padding: 0.42rem 0.5rem;
+  padding: 0.32rem 0.45rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius);
   background: var(--primary);
   color: var(--ink);
   font-family: var(--font-display), sans-serif;
   font-weight: 600;
-  font-size: 0.62rem;
+  font-size: 0.58rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: nowrap;

@@ -4,8 +4,19 @@ import type {
   Direction,
   LaunchResult,
   MoveResult,
+  Plateau,
   Probe,
 } from "@/lib/types";
+
+type ProbeListResponse = {
+  probes: Probe[];
+  plateau: Plateau | null;
+};
+
+type ApiPlateau = {
+  max_x: number;
+  max_y: number;
+};
 
 const API_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
 
@@ -80,10 +91,23 @@ async function requestJson(
   return { ok: true, status: response.status, body };
 }
 
-export function listProbes(): Promise<{ probes: Probe[] }> {
-  return requestJson("/api/probes/").then(
-    ({ body }) => body as { probes: Probe[] },
-  );
+function parsePlateau(raw: unknown): Plateau | null {
+  if (!raw || typeof raw !== "object") return null;
+  const value = raw as Partial<ApiPlateau>;
+  if (typeof value.max_x !== "number" || typeof value.max_y !== "number") {
+    return null;
+  }
+  return { maxX: value.max_x, maxY: value.max_y };
+}
+
+export function listProbes(): Promise<ProbeListResponse> {
+  return requestJson("/api/probes/").then(({ body }) => {
+    const payload = body as { probes?: Probe[]; plateau?: unknown };
+    return {
+      probes: Array.isArray(payload.probes) ? payload.probes : [],
+      plateau: parsePlateau(payload.plateau),
+    };
+  });
 }
 
 export async function launchProbe(input: {

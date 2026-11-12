@@ -32,6 +32,7 @@ export type CollisionFxEvent = {
   x: number;
   y: number;
   destroyed: string[];
+  source?: "landing" | "move";
 };
 
 export type MoveResult =
