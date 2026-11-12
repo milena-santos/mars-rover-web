@@ -1,25 +1,15 @@
 import type { Metadata } from "next";
-import { Oxanium, Sora } from "next/font/google";
 
 import "./globals.css";
-
-const oxanium = Oxanium({
-  variable: "--font-oxanium",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-});
-
-const sora = Sora({
-  variable: "--font-sora",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-});
 
 export const metadata: Metadata = {
   title: "Mars Rover Control",
   description:
     "Interface React para lançar e controlar sondas no planalto marciano.",
 };
+
+const FONT_HREF =
+  "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&family=Manrope:wght@200..800&family=Outfit:wght@100..900&display=swap";
 
 export default function RootLayout({
   children,
@@ -28,9 +18,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${oxanium.variable} ${sora.variable} antialiased`}>
-        {children}
-      </body>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link href={FONT_HREF} rel="stylesheet" />
+      </head>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }

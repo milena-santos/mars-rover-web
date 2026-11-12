@@ -1,0 +1,27 @@
+.explore-dock {
+  position: absolute;
+  left: 50%;
+  bottom: 1.5rem;
+  z-index: 4;
+  display: grid;
+  justify-items: center;
+  gap: 0.55rem;
+  width: max-content;
+  max-width: calc(100% - 2rem);
+  transform: translateX(-50%);
+  animation: panel-in 480ms ease;
+}
+
+.explore-dock-hint {
+  margin: 0;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
+  text-align: center;
+}
+
+.explore-dock .btn-mars {
+  width: auto;
+}

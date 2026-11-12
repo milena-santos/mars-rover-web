@@ -3,8 +3,8 @@ node_modules/
 out/
 coverage/
 .vercel/
-.env*
-!.env.local.example
+.env
+!.env.example
 *.tsbuildinfo
 next-env.d.ts
 .DS_Store
