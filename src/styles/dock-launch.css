@@ -1,6 +1,6 @@
 .dock-launch-row {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 0.35rem;
   min-width: 0;
 }
@@ -29,9 +29,13 @@
 
 .dock-abandon {
   flex: 1 1 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-width: 0;
+  height: 1.4rem;
   margin: 0;
-  padding: 0.35rem 0.4rem;
+  padding: 0 0.4rem;
   border-radius: var(--radius);
   border: 1px solid rgba(229, 88, 56, 0.55);
   background: rgba(229, 88, 56, 0.14);
