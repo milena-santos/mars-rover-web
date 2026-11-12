@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { probeLabel } from "@/lib/probeLabel";
 import type { BlastFx } from "@/lib/sceneTypes";
@@ -19,6 +19,7 @@ type UseLandingSessionOptions = {
   clearFx: () => void;
   confirmLanding: (probeId: string) => void;
   setSelectedId: (id: string | null) => void;
+  settleCollisionState: () => void | Promise<void>;
 };
 
 export function useLandingSession({
@@ -27,9 +28,12 @@ export function useLandingSession({
   clearFx,
   confirmLanding,
   setSelectedId,
+  settleCollisionState,
 }: UseLandingSessionOptions) {
   const [session, setSession] = useState<LandingSession | null>(null);
   const [blast, setBlast] = useState<BlastFx | null>(null);
+  const sessionRef = useRef<LandingSession | null>(null);
+  sessionRef.current = session;
 
   function clearLanding() {
     setSession(null);
@@ -70,10 +74,16 @@ export function useLandingSession({
   }
 
   function onProbeDropped() {
-    const current = session;
+    const current = sessionRef.current;
     if (!current) return;
     if (current.crash) {
-      triggerBlast(current.crash);
+      void settleCollisionState();
+      setBlast({
+        key: Date.now(),
+        x: current.crash.x,
+        y: current.crash.y,
+      });
+      flash("collision", 2200);
       return;
     }
     setSession({ ...current, hideProbe: false });
