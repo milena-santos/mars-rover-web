@@ -2,7 +2,12 @@ import { useEffect, type Dispatch, type SetStateAction } from "react";
 
 import { listProbes } from "@/lib/api";
 import { humanizeApiError } from "@/lib/errors";
-import { inferPlateau, readStoredPlateau, storePlateau } from "@/lib/plateau";
+import {
+  clearStoredPlateau,
+  readStoredPlateau,
+  resolveMissionPlateau,
+  storePlateau,
+} from "@/lib/plateau";
 import type { Plateau, Probe } from "@/lib/types";
 
 type BootstrapArgs = {
@@ -37,12 +42,18 @@ export function useMissionBootstrap({
         const response = await listProbes();
         if (cancelled) return;
         setProbes(response.probes);
-        const nextPlateau = inferPlateau(response.probes, stored);
+        const nextPlateau = resolveMissionPlateau(
+          response.plateau,
+          stored,
+          response.probes,
+        );
         setPlateau(nextPlateau);
         if (nextPlateau) {
           storePlateau(nextPlateau);
           setMeshX(String(nextPlateau.maxX));
           setMeshY(String(nextPlateau.maxY));
+        } else {
+          clearStoredPlateau();
         }
         if (response.probes.length > 0) {
           setSelectedId(response.probes[0].id);

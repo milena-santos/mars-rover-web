@@ -43,21 +43,40 @@ export function MissionHud({
 }: MissionHudProps) {
   const [confirmAbandon, setConfirmAbandon] = useState(false);
   const [probeModalOpen, setProbeModalOpen] = useState(false);
+  const meshLabel = visiblePlateau
+    ? `${visiblePlateau.maxX}×${visiblePlateau.maxY}`
+    : "—";
 
   return (
     <>
-      <div className="mission-dock glass">
-        <div className="dock-head">
-          <p className="panel-kicker">{region.name}</p>
-          <span>
-            {visiblePlateau
-              ? `${visiblePlateau.maxX}×${visiblePlateau.maxY}`
-              : "—"}
-          </span>
-        </div>
+      <aside className="mission-dock glass" aria-label="Painel de controle">
+        <header className="dock-head">
+          <div className="dock-head-copy">
+            <p className="panel-kicker">Controle de missão</p>
+            <strong className="dock-site">{region.name}</strong>
+          </div>
+          <div className="dock-readouts" aria-hidden>
+            <span className="dock-readout">
+              <em>Malha</em>
+              {meshLabel}
+            </span>
+            <span className="dock-readout">
+              <em>Sondas</em>
+              {probes.length}
+            </span>
+            <span
+              className="dock-led"
+              data-live={probes.length > 0 ? "on" : "off"}
+            />
+          </div>
+        </header>
 
         <div className="dock-body">
-          <section className="dock-map" aria-label="Planalto">
+          <section className="dock-module dock-map" aria-label="Planalto">
+            <div className="dock-module-head">
+              <span className="dock-band-label">Mapa</span>
+              <span className="dock-module-meta">origem 0,0</span>
+            </div>
             <PlateauGrid
               plateau={visiblePlateau}
               probes={probes}
@@ -99,7 +118,7 @@ export function MissionHud({
             {error}
           </div>
         ) : null}
-      </div>
+      </aside>
 
       {probeModalOpen ? (
         <ProbePickerModal

@@ -32,8 +32,11 @@ const KEYS: Array<{
 
 export function PilotControls({ disabled, onAction }: PilotControlsProps) {
   return (
-    <section className="dock-pilot" aria-label="Pilotar">
-      <span className="dock-band-label">Piloto</span>
+    <section className="dock-module dock-pilot" aria-label="Pilotar">
+      <div className="dock-module-head">
+        <span className="dock-band-label">Piloto</span>
+        <span className="dock-module-meta">WASD · QE</span>
+      </div>
       <div className="dock-pilot-row">
         <div className="pilot-pad compact" aria-label="Teclas">
           {KEYS.map((item) => (

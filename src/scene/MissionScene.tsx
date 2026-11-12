@@ -1,6 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import { Suspense, useMemo } from "react";
 
+import type { LandingSession } from "@/hooks/useLandingSession";
 import {
   INTRO_LANDING,
   resolveSceneCamera,
@@ -27,8 +28,7 @@ type MissionSceneProps = {
   regionLocked: boolean;
   introLanding: boolean;
   introLanded: boolean;
-  landerActive: boolean;
-  landingProbeId: string | null;
+  landingSession: LandingSession | null;
   blast: BlastFx | null;
   probes: Probe[];
   plateau: Plateau | null;
@@ -36,6 +36,7 @@ type MissionSceneProps = {
   onSelectRegion: (region: MissionRegion) => void;
   onSelectProbe: (id: string) => void;
   onIntroLandingComplete: () => void;
+  onMissionProbeDropped: () => void;
   onMissionLandingComplete: () => void;
   onBlastDone: () => void;
   onReady?: () => void;
@@ -47,8 +48,7 @@ export function MissionScene({
   regionLocked,
   introLanding,
   introLanded,
-  landerActive,
-  landingProbeId,
+  landingSession,
   blast,
   probes,
   plateau,
@@ -56,6 +56,7 @@ export function MissionScene({
   onSelectRegion,
   onSelectProbe,
   onIntroLandingComplete,
+  onMissionProbeDropped,
   onMissionLandingComplete,
   onBlastDone,
   onReady,
@@ -63,6 +64,7 @@ export function MissionScene({
   const veiled = phase === "intro" && !introLanding;
   const picking = phase === "select-region";
   const inMission = phase === "mission";
+  const landerActive = Boolean(landingSession);
   const orbitEnabled =
     !introLanding &&
     (phase === "explore" || picking || inMission || landerActive);
@@ -140,7 +142,9 @@ export function MissionScene({
               plateau={plateau}
               probes={probes}
               selectedId={selectedId}
-              hiddenId={landingProbeId}
+              hiddenId={
+                landingSession?.hideProbe ? landingSession.probeId : null
+              }
               onSelect={onSelectProbe}
             />
           ) : null}
@@ -152,13 +156,15 @@ export function MissionScene({
             parked={introLanded}
             onComplete={onIntroLandingComplete}
           />
-          {landerActive && missionTouchdown ? (
+          {landingSession && missionTouchdown ? (
             <LandingShip
-              key={landingProbeId ?? "mission-land"}
+              key={landingSession.key}
               variant="probe"
-              active={landerActive}
+              active
+              crash={Boolean(landingSession.crash)}
               touchdown={missionTouchdown.touchdown}
               normal={missionTouchdown.normal}
+              onDrop={onMissionProbeDropped}
               onComplete={onMissionLandingComplete}
             />
           ) : null}
