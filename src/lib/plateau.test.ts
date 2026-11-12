@@ -43,18 +43,14 @@ describe("parseMeshSize", () => {
 describe("resolveMissionPlateau", () => {
   it("prefers the shared plateau from the API", () => {
     expect(
-      resolveMissionPlateau(
-        { maxX: 5, maxY: 5 },
-        { maxX: 3, maxY: 3 },
-        [probeAt(0, 1)],
-      ),
+      resolveMissionPlateau({ maxX: 5, maxY: 5 }, { maxX: 3, maxY: 3 }, [
+        probeAt(0, 1),
+      ]),
     ).toEqual({ maxX: 5, maxY: 5 });
   });
 
   it("does not invent plateau size from probe positions", () => {
-    expect(
-      resolveMissionPlateau(null, null, [probeAt(0, 1)]),
-    ).toBeNull();
+    expect(resolveMissionPlateau(null, null, [probeAt(0, 1)])).toBeNull();
   });
 
   it("falls back to stored plateau when probes exist and API has none", () => {
@@ -64,8 +60,6 @@ describe("resolveMissionPlateau", () => {
   });
 
   it("clears stale stored plateau when the mission is empty", () => {
-    expect(
-      resolveMissionPlateau(null, { maxX: 5, maxY: 5 }, []),
-    ).toBeNull();
+    expect(resolveMissionPlateau(null, { maxX: 5, maxY: 5 }, [])).toBeNull();
   });
 });
