@@ -7,7 +7,6 @@ import { Loader } from "@/components/Loader";
 import { MissionHud } from "@/components/MissionHud";
 import { useMissionFlow } from "@/hooks/useMissionFlow";
 import { cn } from "@/lib/cn";
-import { probeLabel } from "@/lib/probeLabel";
 import { MissionScene } from "@/scene/MissionScene";
 
 export function Experience() {
@@ -25,8 +24,7 @@ export function Experience() {
         regionLocked={flow.regionLocked}
         introLanding={flow.introLanding}
         introLanded={flow.introLanded}
-        landerActive={flow.landerActive}
-        landingProbeId={flow.landingProbeId}
+        landingSession={flow.landingSession}
         blast={flow.blast}
         probes={mission.probes}
         plateau={mission.visiblePlateau}
@@ -34,6 +32,7 @@ export function Experience() {
         onSelectRegion={flow.selectRegion}
         onSelectProbe={(id) => mission.setSelectedId(id)}
         onIntroLandingComplete={flow.onIntroLandingComplete}
+        onMissionProbeDropped={flow.onMissionProbeDropped}
         onMissionLandingComplete={flow.onMissionLandingComplete}
         onBlastDone={() => flow.setBlast(null)}
         onReady={() => flow.setSceneReady(true)}
@@ -54,11 +53,7 @@ export function Experience() {
             {!flow.showIntro ? (
               <div className="status-chip" data-ready={mission.apiOnline}>
                 <span className="status-dot" aria-hidden />
-                <span>
-                  {flow.landerActive && flow.landingProbeId
-                    ? `${probeLabel(mission.probes, flow.landingProbeId)} em pouso…`
-                    : mission.status}
-                </span>
+                <span>{flow.statusText}</span>
               </div>
             ) : null}
           </header>

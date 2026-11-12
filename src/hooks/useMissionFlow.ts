@@ -1,5 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
+import {
+  landingStatusText,
+  useLandingSession,
+} from "@/hooks/useLandingSession";
 import { useMissionState } from "@/hooks/useMissionState";
 import { useTimedFx } from "@/hooks/useTimedFx";
 import { parseMeshSize } from "@/lib/plateau";
@@ -9,24 +13,34 @@ import {
   storeRegionId,
 } from "@/lib/regionStorage";
 import { getRegion, type MissionRegion } from "@/lib/regions";
-import type { BlastFx, ScenePhase } from "@/lib/sceneTypes";
+import type { ScenePhase } from "@/lib/sceneTypes";
 
 export function useMissionFlow() {
   const [phase, setPhase] = useState<ScenePhase>("intro");
   const [regionId, setRegionId] = useState<string | null>(null);
   const [introLanding, setIntroLanding] = useState(false);
   const [introLanded, setIntroLanded] = useState(false);
-  const [landerActive, setLanderActive] = useState(false);
-  const [landingProbeId, setLandingProbeId] = useState<string | null>(null);
-  const [blast, setBlast] = useState<BlastFx | null>(null);
   const [booted, setBooted] = useState(false);
   const [sceneReady, setSceneReady] = useState(false);
   const [loading, setLoading] = useState(true);
   const { fx, setFx, flash, clearFx } = useTimedFx();
 
+  const missionApiRef = useRef({
+    confirmLanding: (_probeId: string) => {},
+    setSelectedId: (_id: string | null) => {},
+  });
+
+  const landing = useLandingSession({
+    setFx,
+    flash,
+    clearFx,
+    confirmLanding: (probeId) => missionApiRef.current.confirmLanding(probeId),
+    setSelectedId: (id) => missionApiRef.current.setSelectedId(id),
+  });
+
   const region = useMemo(() => getRegion(regionId), [regionId]);
   const regionLocked = phase === "setup-mesh" || phase === "mission";
-  const showFlowHud = !introLanding && !landerActive;
+  const showFlowHud = !introLanding && !landing.landerActive;
   const showMissionHud =
     phase === "mission" && Boolean(region) && !introLanding;
   const showIntro = phase === "intro" && !introLanding;
@@ -34,28 +48,20 @@ export function useMissionFlow() {
   function releaseRegion() {
     clearStoredRegionId();
     setRegionId(null);
-    setLanderActive(false);
-    setLandingProbeId(null);
-    setBlast(null);
-    clearFx();
+    landing.resetSceneFx();
     setPhase("explore");
   }
 
   const mission = useMissionState({
-    keyboardEnabled: phase === "mission" && !introLanding && !landerActive,
+    keyboardEnabled:
+      phase === "mission" && !introLanding && !landing.landerActive,
     onEmptyMission: releaseRegion,
-    onLaunchSuccess: (probeId) => {
-      setFx("landing");
-      setLandingProbeId(probeId);
-      setLanderActive(true);
-    },
-    onCollision: (event) => {
-      setLanderActive(false);
-      setLandingProbeId(null);
-      setBlast({ key: Date.now(), x: event.x, y: event.y });
-      flash("collision", 2200);
-    },
+    onLaunchSuccess: landing.startDelivery,
+    onCollision: landing.onCollision,
   });
+
+  missionApiRef.current.confirmLanding = mission.confirmLanding;
+  missionApiRef.current.setSelectedId = mission.setSelectedId;
 
   useEffect(() => {
     if (!sceneReady) return;
@@ -116,41 +122,36 @@ export function useMissionFlow() {
     setPhase("explore");
   }
 
-  function onMissionLandingComplete() {
-    const id = landingProbeId;
-    setLanderActive(false);
-    setLandingProbeId(null);
-    clearFx();
-    if (id) {
-      mission.setSelectedId(id);
-      mission.confirmLanding(id);
-    }
-  }
-
   return {
     phase,
     region,
     mission,
     fx,
     loading,
-    blast,
+    blast: landing.blast,
     introLanding,
     introLanded,
-    landerActive,
-    landingProbeId,
+    landingSession: landing.session,
+    landerActive: landing.landerActive,
     regionLocked,
     showFlowHud,
     showMissionHud,
     showIntro,
+    statusText: landingStatusText(
+      landing.session,
+      mission.probes,
+      mission.status,
+    ),
     setPhase,
-    setBlast,
+    setBlast: landing.setBlast,
     setSceneReady,
     startOperation,
     selectRegion,
     confirmMesh,
     backToRegionSelect,
     onIntroLandingComplete,
-    onMissionLandingComplete,
+    onMissionProbeDropped: landing.onProbeDropped,
+    onMissionLandingComplete: landing.onLandingComplete,
     abandonMission: () => {
       void mission.abandonMission();
     },

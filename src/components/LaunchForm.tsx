@@ -23,10 +23,13 @@ export function LaunchForm({
   onAbandon,
 }: LaunchFormProps) {
   return (
-    <section className="dock-launch" aria-label="Pouso">
-      <span className="dock-band-label">Pouso</span>
+    <section className="dock-module dock-launch" aria-label="Pouso">
+      <div className="dock-module-head">
+        <span className="dock-band-label">Pouso</span>
+        <span className="dock-module-meta">slot 0,0</span>
+      </div>
       <div className="dock-dir-block">
-        <span className="dock-dir-hint">Próxima sonda</span>
+        <span className="dock-dir-hint">Orientação</span>
         <div className="dock-launch-row">
           <div
             className="dock-dir-pad"

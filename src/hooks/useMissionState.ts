@@ -73,8 +73,8 @@ export function useMissionState({
   });
 
   async function landAtOrigin() {
-    const x = parseMeshSize(meshX);
-    const y = parseMeshSize(meshY);
+    const x = plateau?.maxX ?? parseMeshSize(meshX);
+    const y = plateau?.maxY ?? parseMeshSize(meshY);
     if (x === null || y === null) {
       setError("Limite X e Y precisam ser números inteiros ≥ 0.");
       return;
@@ -93,7 +93,12 @@ export function useMissionState({
         probesRef.current = nextProbes;
         const { x: cx, y: cy, destroyed } = result.collision;
         setStatus(collisionStatus("pouso", cx, cy, destroyed.length));
-        onCollisionRef.current?.({ x: cx, y: cy, destroyed });
+        onCollisionRef.current?.({
+          x: cx,
+          y: cy,
+          destroyed,
+          source: "landing",
+        });
         return;
       }
 

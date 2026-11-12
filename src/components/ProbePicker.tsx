@@ -22,8 +22,11 @@ export function ProbePicker({ probes, selectedId, onOpen }: ProbePickerProps) {
   const selected = selectedIndex >= 0 ? probes[selectedIndex] : null;
 
   return (
-    <div className="dock-active-block">
-      <span className="dock-band-label">Ativa</span>
+    <div className="dock-module dock-active-block">
+      <div className="dock-module-head">
+        <span className="dock-band-label">Unidade ativa</span>
+        <span className="dock-module-meta">link</span>
+      </div>
       <button
         type="button"
         className="dock-active-trigger"

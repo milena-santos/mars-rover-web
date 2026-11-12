@@ -37,7 +37,7 @@ export function resolveSceneCamera({
 }: ResolveFocusArgs): CameraFocus {
   if (veiled) return VEILED_CAMERA;
   if (introLanding) return INTRO_LANDING;
-  if (region && mission) return cameraFor(region.lat, region.lon, 2 + 0.72);
+  if (region && mission) return cameraFor(region.lat, region.lon, 2 + 2.05);
   if (region) return cameraFor(region.lat, region.lon);
   return OPEN_CAMERA;
 }
