@@ -97,10 +97,16 @@ export function usePilotQueue({
           continue;
         }
 
-        const nextProbes = await refreshProbes(result.probe.id);
+        const moved = result.probe;
+        const nextProbes = probesRef.current.map((item) =>
+          item.id === moved.id ? moved : item,
+        );
         probesRef.current = nextProbes;
+        setProbes(nextProbes);
+        setApiOnline(true);
+        setSelectedId(moved.id);
         setStatus(
-          `${probeLabel(nextProbes, result.probe.id)} agora em (${result.probe.x}, ${result.probe.y}).`,
+          `${probeLabel(nextProbes, moved.id)} agora em (${moved.x}, ${moved.y}).`,
         );
       } catch (err) {
         queueRef.current = [];
