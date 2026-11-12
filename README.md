@@ -1,78 +1,102 @@
 # Mars Rover Web
 
-Mission Control em React + Vite + React Three Fiber para o desafio da sonda em
-Marte. Explora a órbita, escolhe a região, configura a malha e pilota sondas no
-planalto.
+Mission Control UI in React + Vite + React Three Fiber for the Mars probe
+challenge. Talks to
+[`mars-rover-api`](https://github.com/milena-santos/mars-rover-api) over the
+challenge REST endpoints.
+
+**Live**
+
+| Env                | URL                                                |
+| ------------------ | -------------------------------------------------- |
+| Production         | https://mars-rover-web-prod.vercel.app             |
+| Staging            | https://mars-rover-web-staging.vercel.app          |
+| API docs (prod)    | https://web-production-gbuy.onrender.com/api/docs/ |
+| API docs (staging) | https://web-staging-pntn.onrender.com/api/docs/    |
+
+## Overview
+
+Configure the plateau mesh, launch probes at `(0, 0)`, send move/turn commands,
+and see position + direction update from the API. The 3D scene is the mission
+shell; the dock is the control surface for the same REST operations.
+
+Desktop / landscape tablet only (viewport ≥ 1024px).
+
+## Stack
+
+- React 19 + TypeScript + Vite
+- React Three Fiber / Drei / Three.js
+- Vitest, ESLint, Prettier
+- Vercel (static SPA from `dist/`)
 
 ## Requirements
 
 - Node.js 22+
-- API [`mars-rover-api`](https://github.com/milena-santos/mars-rover-api) com CORS
-  liberado para este front
+- API running with CORS allowing this origin
+  ([mars-rover-api](https://github.com/milena-santos/mars-rover-api))
 
-## Setup
+## Setup with local API
 
 ```bash
-cp .env.example .env
+# terminal 1 — API (see mars-rover-api README)
+cd ../mars-rover-api
+cp .env.example .env   # include CORS_ALLOWED_ORIGINS=http://127.0.0.1:3000
+docker compose up -d postgres
+uv sync --group dev
+uv run python src/manage.py migrate
+uv run python src/manage.py runserver
+
+# terminal 2 — UI
+cd ../mars-rover-web
+cp .env.example .env   # VITE_API_URL=http://127.0.0.1:8000
 npm install
 npm run dev
 ```
 
-Abra [http://127.0.0.1:3000](http://127.0.0.1:3000).
+Open http://127.0.0.1:3000.
 
-`VITE_API_URL` deve apontar para a API, por exemplo:
+## What the UI does with the API
 
-- local: `http://127.0.0.1:8000`
-- staging: URL do Render staging
-- production: URL do Render production
+| UI action                                   | API                               |
+| ------------------------------------------- | --------------------------------- |
+| Confirm mesh + land at origin               | `POST /api/probes/`               |
+| Pilot move / turn (`WASD`, arrows, `Q`/`E`) | `POST /api/probes/{id}/commands/` |
+| Refresh probes / mission state              | `GET /api/probes/`                |
+| Abandon mission                             | `DELETE /api/probes/`             |
 
-## Fluxo
+## Flow
 
-1. Inicia a exploração e acompanha o pouso introdutório.
-2. Escolhe a região e define a malha do planalto.
-3. Lança sondas em `(0, 0)` e pilota com `WASD`/setas; `Q`/`E` giram.
-4. Troca a sonda ativa pelo seletor do dock.
-
-Telas abaixo de 1024px mostram aviso de suporte (desktop / tablet paisagem).
+1. Start exploration (intro landing).
+2. Choose a region and set plateau size.
+3. Land probes at `(0, 0)`; pilot with keyboard.
+4. Switch the active probe from the dock picker.
 
 ## Scripts
 
 ```bash
 npm run dev
-npm run format        # Prettier write
-npm run format:check  # Prettier check (CI)
-npm run lint          # ESLint
-npm run typecheck     # TypeScript
-npm test              # Vitest
-npm run audit         # npm audit (CI)
 npm run build
 npm run preview
+npm run lint
+npm run typecheck
+npm test
+npm run format
+npm run format:check
+npm run audit
 ```
 
 ## CI and CD
 
-GitHub Actions runs **Format**, **Lint**, **Types**, **Tests**, **Audit**, and
-**Build** on pull requests and on pushes to `develop` / `main`.
+GitHub Actions: Format, Lint, Types, Tests, Audit, Build.
 
-Branch workflow (same as the API repo):
+| Git branch | Vercel                   | API               |
+| ---------- | ------------------------ | ----------------- |
+| `develop`  | Preview / staging domain | Render staging    |
+| `main`     | Production               | Render production |
 
-1. Short-lived branch → PR into `develop` (draft PR can be opened by
-   `open-pr.yml` when you push `feature/**`, etc.).
-2. Push/merge into `develop` → `release-pr.yml` opens or updates the release PR
-   **`develop` → `main`**.
-3. Merge into `main` → Vercel production (Git Integration).
+Set `VITE_API_URL` per Vercel environment. More workflow detail:
+[CONTRIBUTING.md](./CONTRIBUTING.md).
 
-| Git branch | Vercel target | API used by the UI |
-| ---------- | ------------- | ------------------ |
-| `develop`  | Preview       | Render staging     |
-| `main`     | Production    | Render production  |
+## License
 
-Set `VITE_API_URL` in the Vercel project for each environment. The app builds as
-a static SPA (`dist/`) via Vite.
-
-Workflows that open pull requests should use the repository secret
-`GH_WORKFLOW_TOKEN` (same pattern as the API repo).
-
-## Contributing
-
-See [CONTRIBUTING.md](./CONTRIBUTING.md).
+[MIT](LICENSE)
