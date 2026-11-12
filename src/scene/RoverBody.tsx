@@ -1,5 +1,3 @@
-"use client";
-
 type RoverBodyProps = {
   color: string;
   selected: boolean;

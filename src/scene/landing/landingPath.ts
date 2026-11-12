@@ -18,7 +18,7 @@ export type LandingPath = {
   startQuat: THREE.Quaternion;
 };
 
-export type CraftOrient = "insight" | "probe";
+type CraftOrient = "insight" | "probe";
 
 export function easeOutCubic(value: number) {
   return 1 - (1 - value) ** 3;

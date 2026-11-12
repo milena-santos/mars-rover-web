@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useRef } from "react";
 
 import { keyToCardinal, keyToTurn, type PilotAction } from "@/lib/pilot";

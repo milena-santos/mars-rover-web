@@ -1,5 +1,3 @@
-"use client";
-
 import { MAX_MESH_SIZE, parseMeshSize } from "@/lib/plateau";
 import type { MissionRegion } from "@/lib/regions";
 

@@ -1,5 +1,3 @@
-"use client";
-
 export function ProbeCraft() {
   return (
     <group scale={0.72}>

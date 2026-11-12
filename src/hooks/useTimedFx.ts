@@ -1,8 +1,6 @@
-"use client";
-
 import { useEffect, useRef, useState } from "react";
 
-export type SceneFx = "none" | "landing" | "collision";
+type SceneFx = "none" | "landing" | "collision";
 
 export function useTimedFx() {
   const [fx, setFx] = useState<SceneFx>("none");

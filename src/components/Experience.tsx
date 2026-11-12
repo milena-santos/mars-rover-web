@@ -1,5 +1,3 @@
-"use client";
-
 import { ExplorePanel } from "@/components/panels/ExplorePanel";
 import { IntroPanel } from "@/components/panels/IntroPanel";
 import { MobileGate } from "@/components/panels/MobileGate";

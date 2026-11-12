@@ -1,5 +1,3 @@
-"use client";
-
 import { DirectionArrow } from "@/components/DirectionArrow";
 import { cn } from "@/lib/cn";
 import { DIRECTIONS, directionLabel } from "@/lib/directions";
@@ -28,25 +26,31 @@ export function LaunchForm({
     <section className="dock-launch" aria-label="Pouso">
       <span className="dock-band-label">Pouso</span>
       <div className="dock-launch-row">
-        <div
-          className="dock-dir-pad"
-          role="group"
-          aria-label="Direção de pouso"
-        >
-          {DIRECTIONS.map((item) => (
-            <button
-              key={item}
-              type="button"
-              className={cn("dock-dir-key", item === direction && "is-active")}
-              disabled={busy}
-              aria-pressed={item === direction}
-              aria-label={directionLabel(item)}
-              title={directionLabel(item)}
-              onClick={() => onDirectionChange(item)}
-            >
-              <DirectionArrow direction={item} />
-            </button>
-          ))}
+        <div className="dock-dir-block">
+          <span className="dock-dir-hint">Próxima sonda</span>
+          <div
+            className="dock-dir-pad"
+            role="group"
+            aria-label="Orientação da próxima sonda ao pousar"
+          >
+            {DIRECTIONS.map((item) => (
+              <button
+                key={item}
+                type="button"
+                className={cn(
+                  "dock-dir-key",
+                  item === direction && "is-active",
+                )}
+                disabled={busy}
+                aria-pressed={item === direction}
+                aria-label={`Ao pousar: ${directionLabel(item)}`}
+                title={`Orientação ao pousar: ${directionLabel(item)}`}
+                onClick={() => onDirectionChange(item)}
+              >
+                <DirectionArrow direction={item} />
+              </button>
+            ))}
+          </div>
         </div>
         <button
           type="button"

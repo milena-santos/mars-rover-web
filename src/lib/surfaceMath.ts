@@ -19,7 +19,7 @@ export function orientationFromNormal(normal: THREE.Vector3): THREE.Quaternion {
   );
 }
 
-export function tangentFrame(
+function tangentFrame(
   lat: number,
   lon: number,
 ): {
@@ -52,7 +52,7 @@ function projectToSurface(
     .multiplyScalar(MARS_R + lift);
 }
 
-export function plateauFrame(region: MissionRegion): {
+function plateauFrame(region: MissionRegion): {
   origin: THREE.Vector3;
   normal: THREE.Vector3;
   east: THREE.Vector3;

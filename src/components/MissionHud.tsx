@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 
 import { LaunchForm } from "@/components/LaunchForm";

@@ -1,6 +1,6 @@
 import { cameraFor, type MissionRegion } from "@/lib/regions";
 
-export type CameraFocus = {
+type CameraFocus = {
   position: [number, number, number];
   target: [number, number, number];
 };
@@ -10,7 +10,7 @@ export const VEILED_CAMERA: CameraFocus = {
   target: [0, -0.1, 0],
 };
 
-export const OPEN_CAMERA: CameraFocus = {
+const OPEN_CAMERA: CameraFocus = {
   position: [0, 1.05, 7.6],
   target: [0, 0, 0],
 };
@@ -25,7 +25,6 @@ export const INTRO_LANDING = {
 type ResolveFocusArgs = {
   veiled: boolean;
   introLanding: boolean;
-  explore: boolean;
   mission: boolean;
   region: MissionRegion | null;
 };
@@ -33,7 +32,6 @@ type ResolveFocusArgs = {
 export function resolveSceneCamera({
   veiled,
   introLanding,
-  explore,
   mission,
   region,
 }: ResolveFocusArgs): CameraFocus {
@@ -41,6 +39,5 @@ export function resolveSceneCamera({
   if (introLanding) return INTRO_LANDING;
   if (region && mission) return cameraFor(region.lat, region.lon, 2 + 0.72);
   if (region) return cameraFor(region.lat, region.lon);
-  if (explore) return OPEN_CAMERA;
   return OPEN_CAMERA;
 }

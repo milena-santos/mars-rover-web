@@ -7,7 +7,7 @@ import type {
   Probe,
 } from "@/lib/types";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
+const API_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
 
 export class ApiError extends Error {
   status: number;
@@ -21,10 +21,7 @@ export class ApiError extends Error {
 
 function requireApiUrl(): string {
   if (!API_URL) {
-    throw new ApiError(
-      "NEXT_PUBLIC_API_URL is not configured. Set it in .env.",
-      500,
-    );
+    throw new ApiError("VITE_API_URL is not configured. Set it in .env.", 500);
   }
   return API_URL;
 }
@@ -39,12 +36,14 @@ function formatDetail(detail: ApiErrorBody["detail"]): string {
   return "Request failed.";
 }
 
-function isCollisionBody(body: ApiErrorBody): body is CollisionEvent {
+function isCollisionBody(body: unknown): body is CollisionEvent {
+  if (!body || typeof body !== "object") return false;
+  const value = body as CollisionEvent;
   return (
-    body.event === "collision" &&
-    typeof body.x === "number" &&
-    typeof body.y === "number" &&
-    Array.isArray(body.destroyed)
+    value.event === "collision" &&
+    typeof value.x === "number" &&
+    typeof value.y === "number" &&
+    Array.isArray(value.destroyed)
   );
 }
 
@@ -58,7 +57,10 @@ function toCollision(body: CollisionEvent): CollisionEvent {
   };
 }
 
-async function request<T>(path: string, init?: RequestInit): Promise<T> {
+async function requestJson(
+  path: string,
+  init?: RequestInit,
+): Promise<{ ok: true; status: number; body: unknown } | never> {
   const response = await fetch(`${requireApiUrl()}${path}`, {
     ...init,
     headers: {
@@ -68,20 +70,20 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   });
 
   if (response.status === 204) {
-    return undefined as T;
+    return { ok: true, status: 204, body: undefined };
   }
 
-  const body = (await response.json().catch(() => ({}))) as T & ApiErrorBody;
-
+  const body = (await response.json().catch(() => ({}))) as ApiErrorBody;
   if (!response.ok) {
     throw new ApiError(formatDetail(body.detail), response.status);
   }
-
-  return body;
+  return { ok: true, status: response.status, body };
 }
 
 export function listProbes(): Promise<{ probes: Probe[] }> {
-  return request("/api/probes/");
+  return requestJson("/api/probes/").then(
+    ({ body }) => body as { probes: Probe[] },
+  );
 }
 
 export async function launchProbe(input: {
@@ -89,55 +91,36 @@ export async function launchProbe(input: {
   y: number;
   direction: Direction;
 }): Promise<LaunchResult> {
-  const response = await fetch(`${requireApiUrl()}/api/probes/`, {
+  const { body } = await requestJson("/api/probes/", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(input),
   });
-
-  const body = (await response.json().catch(() => ({}))) as Probe &
-    ApiErrorBody;
-
-  if (!response.ok) {
-    throw new ApiError(formatDetail(body.detail), response.status);
-  }
 
   if (isCollisionBody(body)) {
     return { kind: "collision", collision: toCollision(body) };
   }
 
-  return { kind: "launched", probe: body };
+  return { kind: "launched", probe: body as Probe };
 }
 
 export async function moveProbe(
   probeId: string,
   commands: string,
 ): Promise<MoveResult> {
-  const response = await fetch(
-    `${requireApiUrl()}/api/probes/${probeId}/commands/`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ commands }),
-    },
-  );
-
-  const body = (await response.json().catch(() => ({}))) as Probe &
-    ApiErrorBody;
-
-  if (!response.ok) {
-    throw new ApiError(formatDetail(body.detail), response.status);
-  }
+  const { body } = await requestJson(`/api/probes/${probeId}/commands/`, {
+    method: "POST",
+    body: JSON.stringify({ commands }),
+  });
 
   if (isCollisionBody(body)) {
     return { kind: "collision", collision: toCollision(body) };
   }
 
-  return { kind: "moved", probe: body };
+  return { kind: "moved", probe: body as Probe };
 }
 
 export function clearProbes(): Promise<void> {
-  return request("/api/probes/", {
-    method: "DELETE",
-  });
+  return requestJson("/api/probes/", { method: "DELETE" }).then(
+    () => undefined,
+  );
 }

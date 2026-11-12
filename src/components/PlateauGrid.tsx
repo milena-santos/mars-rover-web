@@ -1,5 +1,3 @@
-"use client";
-
 import { cn } from "@/lib/cn";
 import { probeLabel } from "@/lib/probeLabel";
 import type { Plateau, Probe } from "@/lib/types";
@@ -23,7 +21,6 @@ function cellLabel(
   if (probe) {
     return `${probeLabel(probes, probe.id)} em ${column}, ${row}`;
   }
-  if (landTarget && probe) return "Pousar em (0, 0) · colisão";
   if (landTarget) return "Pousar sonda em (0, 0)";
   return `Célula ${column}, ${row}`;
 }

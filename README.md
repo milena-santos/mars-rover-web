@@ -1,7 +1,8 @@
 # Mars Rover Web
 
-Mission Control em Next.js + React Three Fiber para o desafio da sonda em Marte.
-Explora a órbita, escolhe a região, configura a malha e pilota sondas no planalto.
+Mission Control em React + Vite + React Three Fiber para o desafio da sonda em
+Marte. Explora a órbita, escolhe a região, configura a malha e pilota sondas no
+planalto.
 
 ## Requirements
 
@@ -19,7 +20,7 @@ npm run dev
 
 Abra [http://127.0.0.1:3000](http://127.0.0.1:3000).
 
-`NEXT_PUBLIC_API_URL` deve apontar para a API, por exemplo:
+`VITE_API_URL` deve apontar para a API, por exemplo:
 
 - local: `http://127.0.0.1:8000`
 - staging: URL do Render staging
@@ -43,15 +44,15 @@ npm run format:check  # Prettier check (CI)
 npm run lint          # ESLint
 npm run typecheck     # TypeScript
 npm test              # Vitest
+npm run audit         # npm audit (CI)
 npm run build
-npm run start
+npm run preview
 ```
 
 ## CI and CD
 
-GitHub Actions runs **Format** (Prettier), **Lint** (ESLint), **Types**,
-**Tests** (Vitest), and **Build** on pull requests and on pushes to `develop` /
-`main`.
+GitHub Actions runs **Format**, **Lint**, **Types**, **Tests**, **Audit**, and
+**Build** on pull requests and on pushes to `develop` / `main`.
 
 Branch workflow (same as the API repo):
 
@@ -66,7 +67,8 @@ Branch workflow (same as the API repo):
 | `develop`  | Preview       | Render staging     |
 | `main`     | Production    | Render production  |
 
-Set `NEXT_PUBLIC_API_URL` in the Vercel project for each environment.
+Set `VITE_API_URL` in the Vercel project for each environment. The app builds as
+a static SPA (`dist/`) via Vite.
 
 Workflows that open pull requests should use the repository secret
 `GH_WORKFLOW_TOKEN` (same pattern as the API repo).

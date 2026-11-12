@@ -1,5 +1,3 @@
-"use client";
-
 type IntroPanelProps = {
   onStart: () => void;
 };

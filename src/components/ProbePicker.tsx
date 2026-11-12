@@ -1,5 +1,3 @@
-"use client";
-
 import { DirectionArrow } from "@/components/DirectionArrow";
 import { cn } from "@/lib/cn";
 import { directionLabel } from "@/lib/directions";

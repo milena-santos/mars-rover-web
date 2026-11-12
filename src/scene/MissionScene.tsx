@@ -1,5 +1,3 @@
-"use client";
-
 import { Canvas } from "@react-three/fiber";
 import { Suspense, useMemo } from "react";
 
@@ -9,6 +7,7 @@ import {
   VEILED_CAMERA,
 } from "@/lib/cameras";
 import type { MissionRegion } from "@/lib/regions";
+import type { BlastFx, ScenePhase } from "@/lib/sceneTypes";
 import { plateauToWorld } from "@/lib/surfaceMath";
 import type { Plateau, Probe } from "@/lib/types";
 import { CameraRig } from "@/scene/CameraRig";
@@ -21,15 +20,6 @@ import { ProbeMarkers } from "@/scene/ProbeMarkers";
 import { RegionMarkers } from "@/scene/RegionMarkers";
 import { SceneEffects } from "@/scene/SceneEffects";
 import { Starfield } from "@/scene/Starfield";
-
-export type ScenePhase =
-  "intro" | "explore" | "select-region" | "setup-mesh" | "mission";
-
-export type BlastFx = {
-  key: number;
-  x: number;
-  y: number;
-};
 
 type MissionSceneProps = {
   phase: ScenePhase;
@@ -81,11 +71,10 @@ export function MissionScene({
       resolveSceneCamera({
         veiled,
         introLanding,
-        explore: phase === "explore",
         mission: inMission,
         region,
       }),
-    [veiled, introLanding, phase, inMission, region],
+    [veiled, introLanding, inMission, region],
   );
 
   const missionTouchdown = useMemo(() => {

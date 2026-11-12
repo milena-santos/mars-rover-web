@@ -68,6 +68,7 @@ npm run format:check
 npm run lint
 npm run typecheck
 npm test
+npm run audit
 npm run build
 ```
 

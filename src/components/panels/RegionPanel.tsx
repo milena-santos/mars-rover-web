@@ -1,5 +1,3 @@
-"use client";
-
 import { MISSION_REGIONS, type MissionRegion } from "@/lib/regions";
 
 type RegionPanelProps = {

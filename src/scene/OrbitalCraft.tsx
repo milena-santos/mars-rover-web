@@ -1,8 +1,8 @@
-"use client";
-
 import { useMemo } from "react";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
+
+import { tintStandardMaterials } from "@/scene/tintMaterials";
 
 const ISS_URL = "/models/iss-a.glb";
 
@@ -16,22 +16,10 @@ export function OrbitalCraft({ color, active }: OrbitalCraftProps) {
   const warm = useMemo(() => new THREE.Color(color), [color]);
   const model = useMemo(() => {
     const clone = scene.clone(true);
-    clone.traverse((node) => {
-      if (!(node instanceof THREE.Mesh) || !node.material) return;
-      const source = Array.isArray(node.material)
-        ? node.material
-        : [node.material];
-      const next = source.map((item) => {
-        const material = item.clone();
-        if (!(material instanceof THREE.MeshStandardMaterial)) return material;
-        material.color = material.color
-          .clone()
-          .lerp(new THREE.Color("#d7d2c7"), 0.22);
-        material.roughness = 0.34;
-        material.metalness = 0.86;
-        return material;
-      });
-      node.material = next.length === 1 ? next[0] : next;
+    tintStandardMaterials(clone, {
+      mixAmount: 0.22,
+      roughness: 0.34,
+      metalness: 0.86,
     });
     return clone;
   }, [scene]);

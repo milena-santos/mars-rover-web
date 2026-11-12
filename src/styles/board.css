@@ -29,15 +29,6 @@
   }
 }
 
-.land-hint,
-.origin-label {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: clamp(0.5rem, 1.5vw, 0.68rem);
-  letter-spacing: 0.12em;
-  color: var(--primary-hover);
-  text-transform: uppercase;
-}
-
 .field-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -108,15 +99,6 @@ select:focus,
   height: 100%;
   padding: 0.08rem;
   overflow: hidden;
-}
-
-.probe-glyph {
-  display: grid;
-  place-items: center;
-  font-size: clamp(0.7rem, 2vw, 1.05rem);
-  line-height: 1;
-  color: #ffd7c2;
-  filter: drop-shadow(0 0 6px rgba(229, 88, 56, 0.4));
 }
 
 .direction-arrow {

@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useMemo, useState } from "react";
 
 import { useMissionState } from "@/hooks/useMissionState";
@@ -7,12 +5,11 @@ import { useTimedFx } from "@/hooks/useTimedFx";
 import { parseMeshSize } from "@/lib/plateau";
 import {
   clearStoredRegionId,
-  getRegion,
   readStoredRegionId,
   storeRegionId,
-  type MissionRegion,
-} from "@/lib/regions";
-import type { BlastFx, ScenePhase } from "@/scene/MissionScene";
+} from "@/lib/regionStorage";
+import { getRegion, type MissionRegion } from "@/lib/regions";
+import type { BlastFx, ScenePhase } from "@/lib/sceneTypes";
 
 export function useMissionFlow() {
   const [phase, setPhase] = useState<ScenePhase>("intro");

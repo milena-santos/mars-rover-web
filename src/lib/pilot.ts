@@ -33,19 +33,17 @@ const KEY_TO_TURN: Record<string, "L" | "R"> = {
   E: "R",
 };
 
-export type Cardinal = Direction;
-
 export type PilotAction =
-  { type: "step"; cardinal: Cardinal } | { type: "turn"; command: "L" | "R" };
+  { type: "step"; cardinal: Direction } | { type: "turn"; command: "L" | "R" };
 
-export function turnsToFace(from: Direction, to: Direction): string {
+function turnsToFace(from: Direction, to: Direction): string {
   const fromIdx = ORDER.indexOf(from);
   const toIdx = ORDER.indexOf(to);
   const steps = (toIdx - fromIdx + ORDER.length) % ORDER.length;
   return TURN_BY_STEPS[steps] ?? "";
 }
 
-export function commandsToStep(from: Direction, to: Cardinal): string {
+function commandsToStep(from: Direction, to: Direction): string {
   return `${turnsToFace(from, to)}M`;
 }
 
@@ -80,7 +78,7 @@ export function actionStaysInside(
   return isInsidePlateau(next.x, next.y, plateau);
 }
 
-export function keyToCardinal(key: string): Cardinal | null {
+export function keyToCardinal(key: string): Direction | null {
   return KEY_TO_CARDINAL[key] ?? null;
 }
 
