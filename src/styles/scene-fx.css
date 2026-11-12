@@ -1,0 +1,90 @@
+.fx-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at center, rgba(229, 88, 56, 0.28), transparent 55%),
+    rgba(5, 5, 5, 0.35);
+  animation: collision-flash 1.5s ease forwards;
+}
+
+.fx-flash-blast {
+  background:
+    radial-gradient(
+      circle at 50% 58%,
+      rgba(255, 140, 70, 0.55),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 48% 55%,
+      rgba(229, 88, 56, 0.35),
+      transparent 52%
+    ),
+    rgba(8, 2, 2, 0.42);
+  animation: collision-blast 2.1s ease forwards;
+}
+
+.fx-flash span {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2rem, 8vw, 4rem);
+  letter-spacing: 0.2em;
+  color: #ffd0c4;
+}
+
+.fx-flash-blast span {
+  text-shadow: 0 0 28px rgba(255, 120, 60, 0.65);
+  animation: collision-blast-text 2.1s ease forwards;
+}
+
+.fx-landing .mission-canvas {
+  filter: saturate(1.15) contrast(1.05);
+}
+
+@keyframes collision-flash {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes collision-blast {
+  0% {
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes collision-blast-text {
+  0% {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  12% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+}

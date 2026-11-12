@@ -14,4 +14,30 @@ export type Plateau = {
 
 export type ApiErrorBody = {
   detail?: string | Record<string, unknown>;
+  event?: string;
+  x?: number;
+  y?: number;
+  destroyed?: string[];
 };
+
+export type CollisionEvent = {
+  event: "collision";
+  detail: string;
+  x: number;
+  y: number;
+  destroyed: string[];
+};
+
+export type CollisionFxEvent = {
+  x: number;
+  y: number;
+  destroyed: string[];
+};
+
+export type MoveResult =
+  | { kind: "moved"; probe: Probe }
+  | { kind: "collision"; collision: CollisionEvent };
+
+export type LaunchResult =
+  | { kind: "launched"; probe: Probe }
+  | { kind: "collision"; collision: CollisionEvent };
