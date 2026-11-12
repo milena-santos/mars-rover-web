@@ -11,7 +11,8 @@
 .hero-intro-shell {
   width: min(100%, 1400px);
   margin: 0 auto;
-  padding: 0 1.5rem 6rem;
+  padding: 0 calc(var(--safe-right) + 1rem) calc(var(--safe-bottom) + 4.5rem)
+    calc(var(--safe-left) + 1rem);
 }
 
 .hero-intro-grid {
@@ -103,9 +104,9 @@
 
 @media (min-width: 640px) {
   .hero-intro-shell {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-    padding-bottom: 4.5rem;
+    padding-left: calc(var(--safe-left) + 2rem);
+    padding-right: calc(var(--safe-right) + 2rem);
+    padding-bottom: calc(var(--safe-bottom) + 3.5rem);
   }
 }
 
@@ -127,11 +128,17 @@
 
 .ops-modal {
   position: fixed;
-  inset: 0;
+  top: var(--app-top);
+  right: 0;
+  bottom: var(--app-bottom);
+  left: 0;
   z-index: 20;
   display: grid;
   place-items: center;
-  padding: 0.75rem;
+  width: auto;
+  height: auto;
+  padding: max(0.75rem, var(--safe-top)) max(0.75rem, var(--safe-right))
+    max(0.75rem, var(--safe-bottom)) max(0.75rem, var(--safe-left));
   background: rgba(2, 2, 8, 0.55);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -140,7 +147,7 @@
 .ops-modal-card {
   position: relative;
   width: min(100%, 22rem);
-  max-height: min(100dvh - 1.5rem, 100%);
+  max-height: 100%;
   padding: 0.9rem;
   border-radius: var(--radius);
   display: grid;
